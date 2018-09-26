@@ -22,11 +22,11 @@ public class PlayerOneMovement : MonoBehaviour
         {
             pos += Vector3.right;
         }
-        else if (Input.GetKey(KeyCode.Q) && tr.position == pos)
+        else if (Input.GetKey(KeyCode.A) && tr.position == pos)
         {
             pos += Vector3.left;
         }
-        else if (Input.GetKey(KeyCode.Z) && tr.position == pos)
+        else if (Input.GetKey(KeyCode.W) && tr.position == pos)
         {
             pos += Vector3.forward;
         }
