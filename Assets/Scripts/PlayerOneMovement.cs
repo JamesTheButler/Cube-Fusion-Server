@@ -46,6 +46,7 @@ public class PlayerOneMovement : MonoBehaviour
     public void setPos(Vector3 newPos)
     {
         pos = newPos;
+        transform.position = newPos;
     }
     
 }
