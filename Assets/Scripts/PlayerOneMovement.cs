@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerOneMovement : MonoBehaviour{
     float speed = 3.0f;
     Vector3 pos;
+    enum Direction {Left, Right, Up, Down, Wait};
 
     void Update()
     {
@@ -28,8 +29,10 @@ public class PlayerOneMovement : MonoBehaviour{
         transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);
     }
 
-    //Checks that the square reached its location
-    bool isOnASquare() {
+
+    //Checks that the cube reached its location
+    bool isOnASquare()
+    {
         Vector3 currentPosition = transform.position;
         bool check = (currentPosition.x % 1 == 0 && currentPosition.z % 1 == 0) ? true : false;
         return check;        

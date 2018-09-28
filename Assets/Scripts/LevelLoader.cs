@@ -44,6 +44,12 @@ public class LevelLoader : MonoBehaviour {
         playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
 
         levelIdText.text = "Level " + (id+1);
+
+        Debug.Log("p1 pos: " + playerOneStartPos);
+
+        SequentialMovement sequentialMovement = SequentialMovement.getInstance();
+        StopCoroutine(sequentialMovement.ReadInputs());
+        StartCoroutine(sequentialMovement.ReadInputs());
     }
 
     public void unloadCurrentLevel() {
