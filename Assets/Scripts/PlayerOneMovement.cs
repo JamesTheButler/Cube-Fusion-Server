@@ -7,6 +7,7 @@ public class PlayerOneMovement : MonoBehaviour
 
     float speed = 3.0f;
     Vector3 pos;
+    enum Direction {Left, Right, Up, Down, Wait};
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class PlayerOneMovement : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);
     }
 
-    //Checks that the square reached its location
+    //Checks that the cube reached its location
     bool isOnASquare()
     {
         Vector3 currentPosition = transform.position;
@@ -48,5 +49,6 @@ public class PlayerOneMovement : MonoBehaviour
         pos = newPos;
         transform.position = newPos;
     }
+
     
 }
