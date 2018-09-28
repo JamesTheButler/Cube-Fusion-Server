@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerOneMovement : MonoBehaviour
-{
-
+public class PlayerOneMovement : MonoBehaviour{
     float speed = 3.0f;
     Vector3 pos;
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {
@@ -36,17 +29,14 @@ public class PlayerOneMovement : MonoBehaviour
     }
 
     //Checks that the square reached its location
-    bool isOnASquare()
-    {
+    bool isOnASquare() {
         Vector3 currentPosition = transform.position;
         bool check = (currentPosition.x % 1 == 0 && currentPosition.z % 1 == 0) ? true : false;
         return check;        
     }
 
-    public void setPos(Vector3 newPos)
-    {
+    public void setPos(Vector3 newPos) {
         pos = newPos;
         transform.position = newPos;
     }
-    
 }

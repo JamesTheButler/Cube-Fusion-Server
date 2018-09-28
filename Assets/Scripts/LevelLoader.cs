@@ -1,52 +1,66 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour {
     public GameObject playerOne;
     public GameObject playerTwo;
+    public GameObject scene;
 
     public GameObject[] levels;
-    private string currentLevelTag = "currentLevel";
 
-    private void Start() {
-        loadLevel(0);
+    public Text levelIdText;
+
+    private const string CURRENT_LEVEL_TAG = "currentLevel";
+    private const string PLAYER_ONE_TAG = "startPlayerOne";
+    private const string PLAYER_TWO_TAG = "startPlayerTwo";
+    private int currentLevelID;
+    
+    public void initiate(){
+
+        currentLevelID = 0;
+        loadLevel(currentLevelID);
     }
 
     public void loadLevel(int id) {
-        if (levels.Length < id)
+        if (levels.Length < id) {
+            Debug.LogError("Couldn't load level. Level ID does not exist");
             return;
+        }
+        currentLevelID = id;
+
         //remove currently loaded level
         unloadCurrentLevel();
+        
         //load next level
-        levels[id].tag = currentLevelTag;
-        Instantiate(levels[id]);
+        levels[id].tag = CURRENT_LEVEL_TAG;
+        Instantiate(levels[id], scene.transform);
+        
         //place players
-
-
-        /*     GameObject go = GameObject.FindGameObjectWithTag("startPlayerOne");
-             Debug.Log(go.transform.position.x);
-             Vector3 test = go.transform.position;
-             test.x += 1;
-             go.transform.position = test;
-             Debug.Log(go.transform.position.x);
-             */
-        Debug.Log("playerone start positins: " + GameObject.FindGameObjectsWithTag("startPlayerOne").Length);
         Vector3 playerOneStartPos = GameObject.FindGameObjectWithTag("startPlayerOne").transform.position;
         playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
-        
         Vector3 playerTwoStartPos = GameObject.FindGameObjectWithTag("startPlayerTwo").transform.position;
         playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
 
-        Debug.Log("p1 pos: " + playerOneStartPos);
+        levelIdText.text = "Level " + (id+1);
     }
 
     public void unloadCurrentLevel() {
-        GameObject currentLevel = GameObject.FindGameObjectWithTag(currentLevelTag);
+        Debug.Log("unloading current lvl");
+        GameObject currentLevel = GameObject.FindGameObjectWithTag(CURRENT_LEVEL_TAG);
 
-        GameObject.FindGameObjectWithTag("startPlayerOne").tag = "Untagged";
-        GameObject.FindGameObjectWithTag("startPlayerTwo").tag = "Untagged";
+        if(GameObject.FindGameObjectWithTag(PLAYER_ONE_TAG) != null)
+            GameObject.FindGameObjectWithTag(PLAYER_ONE_TAG).tag = "Untagged";
+
+        if (GameObject.FindGameObjectWithTag(PLAYER_TWO_TAG) != null)
+            GameObject.FindGameObjectWithTag(PLAYER_TWO_TAG).tag = "Untagged";
+
         if (currentLevel != null)
             Destroy(currentLevel);
+    }
+
+    public void loadNextLevel() {
+        loadLevel((currentLevelID+1) % levels.Length);
     }
 }
