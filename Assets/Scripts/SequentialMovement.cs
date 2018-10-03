@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SequentialMovement {
+public class SequentialMovement : MonoBehaviour {
 
-    
-    private static SequentialMovement instance = null;
-    enum Direction { Left, Right, Up, Down };
+    PlayerMovement playerMovement;
+
     //public GameObject playerOne;
-    List<Direction> playerOneMovement = new List<Direction>();
+    List<int> playerOneMovement = new List<int>();
     //public GameObject playerTwo;
-    List<Direction> playerTwoMovement = new List<Direction>();
+    List<int> playerTwoMovement = new List<int>();
 
-    public static SequentialMovement getInstance()
+
+    void Start()
     {
-        if (instance == null)
-        {
-            instance = new SequentialMovement();
-        }
-
-        return instance;
+        playerMovement = FindObjectOfType<PlayerMovement>();
+        Debug.Log(playerMovement.tag);
     }
 
     //Simulates the creation of a sequence (by pressing buttons wasd)
@@ -32,12 +28,10 @@ public class SequentialMovement {
         Debug.Log("Waiting for Input");
         while (!Input.GetKeyDown(KeyCode.Return))
         {
-            
-
             if (Input.GetKey(KeyCode.D))
             {
                 Debug.Log("A key has been pressed");
-                playerOneMovement.Add(Direction.Right);
+                playerOneMovement.Add(GameManager.RIGHT);
                 Debug.Log("Wait please");
                 yield return new WaitForSeconds(0.5f);
                 Debug.Log("Waiting for a new Input");
@@ -46,14 +40,14 @@ public class SequentialMovement {
             else if (Input.GetKey(KeyCode.A))
             {
                 Debug.Log("A key has been pressed");
-                playerOneMovement.Add(Direction.Left);
+                playerOneMovement.Add(GameManager.LEFT);
                 Debug.Log("Wait please");
                 yield return new WaitForSeconds(0.5f);
             }
             else if (Input.GetKey(KeyCode.W))
             {
                 Debug.Log("A key has been pressed");
-                playerOneMovement.Add(Direction.Up);
+                playerOneMovement.Add(GameManager.UP);
                 Debug.Log("Wait please");
                 yield return new WaitForSeconds(0.5f);
                 Debug.Log("Waiting for a new Input");
@@ -61,7 +55,7 @@ public class SequentialMovement {
             else if (Input.GetKey(KeyCode.S))
             {
                 Debug.Log("A key has been pressed");
-                playerOneMovement.Add(Direction.Down);
+                playerOneMovement.Add(GameManager.DOWN);
                 Debug.Log("Wait please");
                 yield return new WaitForSeconds(0.5f);
                 Debug.Log("Waiting for a new Input");
@@ -69,11 +63,10 @@ public class SequentialMovement {
             yield return null;
             
         }
-        Debug.Log("Movement inputs : ");
-        for (int i = 0; i < playerOneMovement.Count; i++)
-        {
-            Debug.Log(playerOneMovement[i]);  
-        }
+
+        Debug.Log("Starting movements");
+        yield return StartCoroutine(playerMovement.movePlayer(playerOneMovement));
+        Debug.Log("Finished Movements");
         yield break;
 
     }

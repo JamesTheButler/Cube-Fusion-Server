@@ -29,6 +29,11 @@ public class PlayerOneMovement : MonoBehaviour{
         transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);
     }
 
+    void movePlayer(List<int> movements)
+    {
+
+    }
+
 
     //Checks that the cube reached its location
     bool isOnASquare()

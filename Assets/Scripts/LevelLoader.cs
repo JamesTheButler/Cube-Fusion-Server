@@ -39,15 +39,17 @@ public class LevelLoader : MonoBehaviour {
         
         //place players
         Vector3 playerOneStartPos = GameObject.FindGameObjectWithTag("startPlayerOne").transform.position;
-        playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
+        playerOne.transform.position = playerOneStartPos;
+        //playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
         Vector3 playerTwoStartPos = GameObject.FindGameObjectWithTag("startPlayerTwo").transform.position;
-        playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
+        playerTwo.transform.position = playerTwoStartPos;
+        //playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
 
         levelIdText.text = "Level " + (id+1);
 
         Debug.Log("p1 pos: " + playerOneStartPos);
 
-        SequentialMovement sequentialMovement = SequentialMovement.getInstance();
+        SequentialMovement sequentialMovement = FindObjectOfType<SequentialMovement>();
         StopCoroutine(sequentialMovement.ReadInputs());
         StartCoroutine(sequentialMovement.ReadInputs());
     }
