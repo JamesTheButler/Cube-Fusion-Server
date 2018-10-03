@@ -13,11 +13,10 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    public IEnumerator movePlayer(List<int> movements)
+    public IEnumerator movePlayer(int playerId, List<int> movements)
     {
-        //GameObject currentPlayer = idPlayer == GameManager.PLAYER_ONE_ID ? playerOne : playerTwo;
-        GameObject playerOne = FindObjectOfType<GameManager>().getPlayerOne();
-        Vector3 posP1 = playerOne.transform.position;
+        GameObject currentPlayer = playerId == GameManager.PLAYER_ONE_ID ? FindObjectOfType<GameManager>().getPlayerOne() : FindObjectOfType<GameManager>().getPlayerTwo();
+        Vector3 pos = currentPlayer.transform.position;
 
         for(int i = 0; i < movements.Count; i++)
         {
@@ -25,26 +24,34 @@ public class PlayerMovement : MonoBehaviour {
             switch (currentMove)
             {
                 case GameManager.UP:
-                    posP1 += Vector3.forward;
+                    pos += Vector3.forward;
                     break;
                 case GameManager.DOWN:
-                    posP1 += Vector3.back;
+                    pos += Vector3.back;
                     break;
                 case GameManager.LEFT:
-                    posP1 += Vector3.left;
+                    pos += Vector3.left;
                     break;
                 case GameManager.RIGHT:
-                    posP1 += Vector3.right;
+                    pos += Vector3.right;
                     break;
             }
-            while(playerOne.transform.position != posP1)
+            while(currentPlayer.transform.position != pos)
             {
-                playerOne.transform.position = Vector3.MoveTowards(playerOne.transform.position, posP1, Time.deltaTime * speed);
+                currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, pos, Time.deltaTime * speed);
                 yield return null;
             }
             
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public void movePlayers(List<int> movementsP1, List<int> movementsP2)
+    {
+        Debug.Log(" P1 " + movementsP1.Count + " P2 " + movementsP2.Count);
+        StartCoroutine(movePlayer(GameManager.PLAYER_ONE_ID, movementsP1));
+        Debug.Log("Player two movements");
+        StartCoroutine(movePlayer(GameManager.PLAYER_TWO_ID, movementsP2));
     }
 
     

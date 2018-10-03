@@ -5,6 +5,7 @@ using UnityEngine;
 public class SequentialMovement : MonoBehaviour {
 
     PlayerMovement playerMovement;
+    private const float  TIME_TO_WAIT_BETWEEN_INPUTS = 0.2f;
 
     //public GameObject playerOne;
     List<int> playerOneMovement = new List<int>();
@@ -28,47 +29,56 @@ public class SequentialMovement : MonoBehaviour {
         Debug.Log("Waiting for Input");
         while (!Input.GetKeyDown(KeyCode.Return))
         {
+            // Player One Movement
+            
             if (Input.GetKey(KeyCode.D))
             {
-                Debug.Log("A key has been pressed");
-                playerOneMovement.Add(GameManager.RIGHT);
-                Debug.Log("Wait please");
-                yield return new WaitForSeconds(0.5f);
-                Debug.Log("Waiting for a new Input");
-                
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_ONE_ID, GameManager.RIGHT));
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                Debug.Log("A key has been pressed");
-                playerOneMovement.Add(GameManager.LEFT);
-                Debug.Log("Wait please");
-                yield return new WaitForSeconds(0.5f);
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_ONE_ID, GameManager.LEFT));
             }
             else if (Input.GetKey(KeyCode.W))
             {
-                Debug.Log("A key has been pressed");
-                playerOneMovement.Add(GameManager.UP);
-                Debug.Log("Wait please");
-                yield return new WaitForSeconds(0.5f);
-                Debug.Log("Waiting for a new Input");
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_ONE_ID, GameManager.UP));
             }
             else if (Input.GetKey(KeyCode.S))
             {
-                Debug.Log("A key has been pressed");
-                playerOneMovement.Add(GameManager.DOWN);
-                Debug.Log("Wait please");
-                yield return new WaitForSeconds(0.5f);
-                Debug.Log("Waiting for a new Input");
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_ONE_ID, GameManager.DOWN));
+            }
+            //Player two movement
+            else if(Input.GetKey(KeyCode.RightArrow))
+            {
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_TWO_ID, GameManager.RIGHT));
+            }
+            else if(Input.GetKey(KeyCode.LeftArrow))
+            {
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_TWO_ID, GameManager.LEFT));
+            }
+            else if (Input.GetKey(KeyCode.UpArrow))
+            {
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_TWO_ID, GameManager.UP));
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                yield return StartCoroutine(registerInput(GameManager.PLAYER_TWO_ID, GameManager.DOWN));
             }
             yield return null;
             
         }
 
         Debug.Log("Starting movements");
-        yield return StartCoroutine(playerMovement.movePlayer(playerOneMovement));
-        Debug.Log("Finished Movements");
-        yield break;
+        playerMovement.movePlayers(playerOneMovement, playerTwoMovement);
+    }
 
+
+    private IEnumerator registerInput(int idPlayer, int direction)
+    {
+        List<int> listToAddInput = idPlayer == GameManager.PLAYER_ONE_ID ? playerOneMovement : playerTwoMovement;
+        listToAddInput.Add(direction);
+        yield return new WaitForSeconds(TIME_TO_WAIT_BETWEEN_INPUTS);
+        Debug.Log("Waiting for a new Input");
     }
 
 
