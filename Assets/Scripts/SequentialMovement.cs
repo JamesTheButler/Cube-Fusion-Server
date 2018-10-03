@@ -26,6 +26,7 @@ public class SequentialMovement {
     //Then when the user presses return : reads the inputs in the console
     public IEnumerator ReadInputs()
     {
+        yield return null;
         playerOneMovement.Clear();
         playerTwoMovement.Clear();
         Debug.Log("Waiting for Input");
