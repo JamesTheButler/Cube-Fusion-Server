@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerOneMovement : MonoBehaviour{
     float speed = 3.0f;
-    Vector3 pos;
+    Vector3 destinationPos;
     enum Direction {Left, Right, Up, Down, Wait};
 
     void Update()
@@ -12,21 +12,21 @@ public class PlayerOneMovement : MonoBehaviour{
         bool canBeMoved = isOnASquare();
         if (Input.GetKey(KeyCode.D) && canBeMoved)
         {
-            pos += Vector3.right;
+            destinationPos += Vector3.right;
         }
         else if (Input.GetKey(KeyCode.A) && canBeMoved)
         {
-            pos += Vector3.left;
+            destinationPos += Vector3.left;
         }
         else if (Input.GetKey(KeyCode.W) && canBeMoved)
         {
-            pos += Vector3.forward;
+            destinationPos += Vector3.forward;
         }
         else if (Input.GetKey(KeyCode.S) && canBeMoved)
         {
-            pos += Vector3.back;
+            destinationPos += Vector3.back;
         }
-        transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, destinationPos, Time.deltaTime * speed);
     }
 
     void movePlayer(List<int> movements)
@@ -44,7 +44,7 @@ public class PlayerOneMovement : MonoBehaviour{
     }
 
     public void setPos(Vector3 newPos) {
-        pos = newPos;
+        destinationPos = newPos;
         transform.position = newPos;
     }
 }

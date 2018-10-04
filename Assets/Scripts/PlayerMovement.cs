@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    float speed = 3.0f;
-
-    // Use this for initialization
-    void Start ()
-    {
-
-
-    }
+    public float moveSpeed = 3.0f;
 
     public IEnumerator movePlayer(int playerId, List<int> movements)
     {
         GameObject currentPlayer = playerId == GameManager.PLAYER_ONE_ID ? FindObjectOfType<GameManager>().getPlayerOne() : FindObjectOfType<GameManager>().getPlayerTwo();
-        Vector3 pos = currentPlayer.transform.position;
+        Vector3 destinationPos = currentPlayer.transform.position;
 
         for(int i = 0; i < movements.Count; i++)
         {
@@ -24,21 +17,21 @@ public class PlayerMovement : MonoBehaviour {
             switch (currentMove)
             {
                 case GameManager.UP:
-                    pos += Vector3.forward;
+                    destinationPos += Vector3.forward;
                     break;
                 case GameManager.DOWN:
-                    pos += Vector3.back;
+                    destinationPos += Vector3.back;
                     break;
                 case GameManager.LEFT:
-                    pos += Vector3.left;
+                    destinationPos += Vector3.left;
                     break;
                 case GameManager.RIGHT:
-                    pos += Vector3.right;
+                    destinationPos += Vector3.right;
                     break;
             }
-            while(currentPlayer.transform.position != pos)
+            while(currentPlayer.transform.position != destinationPos)
             {
-                currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, pos, Time.deltaTime * speed);
+                currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
                 yield return null;
             }
             
@@ -52,7 +45,5 @@ public class PlayerMovement : MonoBehaviour {
         StartCoroutine(movePlayer(GameManager.PLAYER_ONE_ID, movementsP1));
         Debug.Log("Player two movements");
         StartCoroutine(movePlayer(GameManager.PLAYER_TWO_ID, movementsP2));
-    }
-
-    
+    }    
 }

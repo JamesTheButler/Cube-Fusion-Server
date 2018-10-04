@@ -2,6 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Command {
+    DOWN,
+    UP,
+    RIGHT,
+    LEFT
+}
+
+public enum Players {
+    ONE,
+    TWO
+}
+
+
 public class GameManager : MonoBehaviour {
 
     public const int DOWN = 2;

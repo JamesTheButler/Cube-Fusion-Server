@@ -541,10 +541,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1102758081725960, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
   m_IsPrefabAsset: 0
@@ -750,7 +746,7 @@ GameObject:
   - component: {fileID: 466733546}
   - component: {fileID: 466733547}
   m_Layer: 0
-  m_Name: MovementManager
+  m_Name: InputManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -780,6 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921ebdf526e505c46be8f979e23c2009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
 --- !u!114 &466733547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1225,7 +1222,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 979141070}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e1db12d9f2e68e49ae9b44ebda3e380, type: 3}
   m_Name: 
@@ -1261,7 +1258,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 983245028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37f3cf2a5b4e68940b5a7dd8818ab21d, type: 3}
   m_Name: 
@@ -1653,7 +1650,7 @@ MonoBehaviour:
   playerOne: {fileID: 979141070}
   playerTwo: {fileID: 983245028}
   nextLevelUI: {fileID: 812448932}
-  nextLevelLoadingScreenTime: 0.5
+  nextLevelLoadingScreenTime: 2
 --- !u!1 &1730444156
 GameObject:
   m_ObjectHideFlags: 0
