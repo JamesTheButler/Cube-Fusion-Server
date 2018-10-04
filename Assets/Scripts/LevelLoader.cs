@@ -40,10 +40,10 @@ public class LevelLoader : MonoBehaviour {
         //place players
         Vector3 playerOneStartPos = GameObject.FindGameObjectWithTag("startPlayerOne").transform.position;
         playerOne.transform.position = playerOneStartPos;
-        //playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
+        playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
         Vector3 playerTwoStartPos = GameObject.FindGameObjectWithTag("startPlayerTwo").transform.position;
         playerTwo.transform.position = playerTwoStartPos;
-        //playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
+        playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
 
         levelIdText.text = "Level " + (id+1);
 

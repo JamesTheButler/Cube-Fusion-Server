@@ -1616,6 +1616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1409113763}
   - component: {fileID: 1409113764}
+  - component: {fileID: 1409113765}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1651,6 +1652,20 @@ MonoBehaviour:
   playerTwo: {fileID: 983245028}
   nextLevelUI: {fileID: 812448932}
   nextLevelLoadingScreenTime: 2
+--- !u!114 &1409113765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1409113762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a3ee91270b744a49ae45e7f48aac005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useDirectMovement: 0
+  useSequentialMovement: 0
+  useNetworkMovement: 0
 --- !u!1 &1730444156
 GameObject:
   m_ObjectHideFlags: 0

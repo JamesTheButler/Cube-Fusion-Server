@@ -6,8 +6,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public float moveSpeed = 3.0f;
 
-    public IEnumerator movePlayer(int playerId, List<int> movements)
-    {
+    public IEnumerator movePlayer(int playerId, List<int> movements){
         GameObject currentPlayer = playerId == GameManager.PLAYER_ONE_ID ? FindObjectOfType<GameManager>().getPlayerOne() : FindObjectOfType<GameManager>().getPlayerTwo();
         Vector3 destinationPos = currentPlayer.transform.position;
 
