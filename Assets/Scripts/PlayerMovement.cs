@@ -3,46 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-
     public float moveSpeed = 3.0f;
+    public float movementDelay = 0.1f;
+    [HideInInspector]
+    public bool isPerformingAction = false;
 
-    public IEnumerator movePlayer(int playerId, List<int> movements){
-        GameObject currentPlayer = playerId == GameManager.PLAYER_ONE_ID ? FindObjectOfType<GameManager>().getPlayerOne() : FindObjectOfType<GameManager>().getPlayerTwo();
-        Vector3 destinationPos = currentPlayer.transform.position;
+    public void moveTwoPlayers(List<eCommands> commandSequenceP1, List<eCommands> commandSequenceP2) {
+        Debug.Log("SequentialMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
+        StartCoroutine(sequentialAction(ePlayers.ONE, commandSequenceP1));
+        StartCoroutine(sequentialAction(ePlayers.TWO, commandSequenceP2));
+    }
 
-        for(int i = 0; i < movements.Count; i++)
-        {
-            int currentMove = movements[i];
-            switch (currentMove)
-            {
-                case GameManager.UP:
-                    destinationPos += Vector3.forward;
-                    break;
-                case GameManager.DOWN:
-                    destinationPos += Vector3.back;
-                    break;
-                case GameManager.LEFT:
-                    destinationPos += Vector3.left;
-                    break;
-                case GameManager.RIGHT:
-                    destinationPos += Vector3.right;
-                    break;
-            }
-            while(currentPlayer.transform.position != destinationPos)
-            {
-                currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
-                yield return null;
-            }
-            
-            yield return new WaitForSeconds(0.1f);
+    public IEnumerator sequentialAction(ePlayers playerId, List<eCommands> commandSequence){
+        for(int i = 0; i < commandSequence.Count; i++) {
+            yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
         }
     }
 
-    public void movePlayers(List<int> movementsP1, List<int> movementsP2)
-    {
-        Debug.Log(" P1 " + movementsP1.Count + " P2 " + movementsP2.Count);
-        StartCoroutine(movePlayer(GameManager.PLAYER_ONE_ID, movementsP1));
-        Debug.Log("Player two movements");
-        StartCoroutine(movePlayer(GameManager.PLAYER_TWO_ID, movementsP2));
-    }    
+    public IEnumerator playerAction(ePlayers player, eCommands command) {
+        //determine player game object
+        isPerformingAction = true;
+        GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
+
+        Vector3 destinationPos = currentPlayer.transform.position;
+        switch (command) {
+            case eCommands.NONE:
+                break;
+            case eCommands.UP:
+                destinationPos += Vector3.forward;
+                break;
+            case eCommands.DOWN:
+                destinationPos += Vector3.back;
+                break;
+            case eCommands.RIGHT:
+                destinationPos += Vector3.right;
+                break;
+            case eCommands.LEFT:
+                destinationPos += Vector3.left;
+                break;
+            default:
+                Debug.LogError("PlayerMovement :: unknown Command");
+                break;
+        }
+        while (currentPlayer.transform.position != destinationPos) {
+            currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+            yield return null;
+        }
+        yield return new WaitForSeconds(movementDelay);
+    //    Debug.Log("PlayerMovement :: heheheheheh");
+        isPerformingAction = false;
+    }
+
+
+    public void resetPlayerPosition(Vector3 newPosP1,Vector3 newPosP2) {
+
+    }
+
+    public void stopRunningActions() {
+        StopAllCoroutines();
+    }
 }

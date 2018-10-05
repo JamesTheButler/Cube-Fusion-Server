@@ -25,47 +25,43 @@ public class LevelLoader : MonoBehaviour {
 
     public void loadLevel(int id) {
         if (levels.Length < id) {
-            Debug.LogError("Couldn't load level. Level ID does not exist");
+            Debug.LogError("LevelLoader :: Couldn't load level. Level ID does not exist");
             return;
         }
         currentLevelID = id;
+        Debug.Log("LevelLoader :: loading level " + id);
 
         //remove currently loaded level
-        unloadCurrentLevel();
-        
+        unloadOldLevel();
+
         //load next level
         levels[id].tag = CURRENT_LEVEL_TAG;
         Instantiate(levels[id], scene.transform);
-        
-        //place players
+
         Vector3 playerOneStartPos = GameObject.FindGameObjectWithTag("startPlayerOne").transform.position;
-        playerOne.transform.position = playerOneStartPos;
-        playerOne.GetComponent<PlayerOneMovement>().setPos(playerOneStartPos);
         Vector3 playerTwoStartPos = GameObject.FindGameObjectWithTag("startPlayerTwo").transform.position;
+        playerOne.transform.position = playerOneStartPos;
         playerTwo.transform.position = playerTwoStartPos;
-        playerTwo.GetComponent<PlayerTwoMovement>().setPos(playerTwoStartPos);
 
         levelIdText.text = "Level " + (id+1);
-
-        Debug.Log("p1 pos: " + playerOneStartPos);
-
-        SequentialMovement sequentialMovement = FindObjectOfType<SequentialMovement>();
-        StopCoroutine(sequentialMovement.ReadInputs());
-        StartCoroutine(sequentialMovement.ReadInputs());
     }
 
-    public void unloadCurrentLevel() {
-        Debug.Log("unloading current lvl");
-        GameObject currentLevel = GameObject.FindGameObjectWithTag(CURRENT_LEVEL_TAG);
-
+    public void unloadOldLevel() {
         if(GameObject.FindGameObjectWithTag(PLAYER_ONE_TAG) != null)
             GameObject.FindGameObjectWithTag(PLAYER_ONE_TAG).tag = "Untagged";
 
         if (GameObject.FindGameObjectWithTag(PLAYER_TWO_TAG) != null)
             GameObject.FindGameObjectWithTag(PLAYER_TWO_TAG).tag = "Untagged";
+      
+        // delete old level. For safety delete all objects with the current level tag
+        GameObject[] loadedLevels = GameObject.FindGameObjectsWithTag(CURRENT_LEVEL_TAG);
+        for (int i =0; i < loadedLevels.Length; i++) {
+            Destroy(loadedLevels[i]);
+        }
+    }
 
-        if (currentLevel != null)
-            Destroy(currentLevel);
+    public void reloadLevel() {
+        loadLevel(currentLevelID);
     }
 
     public void loadNextLevel() {

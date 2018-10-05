@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,31 +9,47 @@ public class InputManager : MonoBehaviour {
     public bool useNetworkMovement;
 
     private PlayerMovement playerMovement;
-//    private DirectInput directInput;
-//    private SequentialInput seuqntialInput;
-//    private NetworkInput networkInput;
-    private SequentialMovement sequentialMovement;
-
+    private DirectInput directInput;
+        
     void Start () {
         playerMovement = GetComponent<PlayerMovement>();
-        sequentialMovement = GetComponent<SequentialMovement>();
-	}
+        directInput = GetComponent<DirectInput>();
+    }
 	
-	// Update is called once per frame
 	void Update () {
-        if (useDirectMovement) {
-            Debug.Log("useDirectInput");
-            Debug.Log("usePlayerMovement");
+        // handle real time input
+        if (useDirectMovement && !playerMovement.isPerformingAction) {
+            if(directInput.readInput(ePlayers.ONE) != eCommands.NONE)
+                StartCoroutine(playerMovement.playerAction(ePlayers.ONE, directInput.readInput(ePlayers.ONE)));
+            if (directInput.readInput(ePlayers.TWO) != eCommands.NONE)
+                StartCoroutine(playerMovement.playerAction(ePlayers.TWO, directInput.readInput(ePlayers.TWO)));
+       }
+    }
 
-        } else if (useNetworkMovement) {
-            Debug.Log("useSequentialInput");
-            Debug.Log("useSequentialMovement");
+    public void reinit() {
+        reinitSequentialInput();
+        reinitNetworkInput();
+       // reinitPlayerMovement();
+    }
 
-        } else if (useSequentialMovement) {
-            Debug.Log("useNetworkInput");
-            Debug.Log("useSequentialMovement");
+    // reset 
+    /*private void reinitPlayerMovement() {
+        playerMovement.stopRunningActions();
+    }*/
 
+    // restart the sequential input functionality
+    public void reinitSequentialInput() {
+        if (useSequentialMovement) {
+            Debug.Log("InputManager :: reinit sequential movement");
+            SequentialInput sequentialMovement = FindObjectOfType<SequentialInput>();
+            StopCoroutine(sequentialMovement.readInput());
+            StartCoroutine(sequentialMovement.readInput());
         }
+    }
 
+    public void reinitNetworkInput() {
+        if (useNetworkMovement) {
+            Debug.LogError("not implemented yet");
+        }
     }
 }

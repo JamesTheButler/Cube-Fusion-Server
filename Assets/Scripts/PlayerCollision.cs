@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour {
+    public GameObject gameMgr;
 
-    GameManager gameMgr;
+    private void OnTriggerStay(Collider other) {
+        if (other.gameObject != this.gameObject) {
+          //  Debug.Log(gameMgr.GetComponent<PlayerMovement>().isPerformingAction);
 
-    private void Start() {
-        gameMgr = FindObjectOfType<GameManager>();
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
-            Debug.Log("The Players have met");
-            other.gameObject.GetComponent<BoxCollider>().enabled = false;
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
-            gameMgr.onLevelCompleted();
+            if (!gameMgr.GetComponent<PlayerMovement>().isPerformingAction) {
+                if (other.tag == "Player") {
+                    gameMgr.GetComponent<GameManager>().transitionToNextLevel();
+                }
+            }
         }
     }
-
 }

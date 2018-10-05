@@ -2,69 +2,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Command {
+public enum eCommands {
+    NONE,
     DOWN,
     UP,
     RIGHT,
     LEFT
 }
 
-public enum Players {
+public enum ePlayers {
     ONE,
     TWO
 }
 
 
 public class GameManager : MonoBehaviour {
-
-    public const int DOWN = 2;
-    public const int LEFT = 4;
-    public const int RIGHT = 6;
-    public const int UP = 8;
-
-    public const int PLAYER_ONE_ID = 1;
-    public const int PLAYER_TWO_ID = 2;
-
     public GameObject playerOne;
     public GameObject playerTwo;
-
-
     
     public GameObject nextLevelUI;
     public float nextLevelLoadingScreenTime;
 
     LevelLoader lvlLoader;
-    
-    // Use this for initialization
+    InputManager inputMgr;
+
     void Start () {
         //init stuff
         lvlLoader = FindObjectOfType<LevelLoader>();
         lvlLoader.initiate();
-        
+
+        inputMgr = FindObjectOfType<InputManager>();
+        inputMgr.reinit();
+
         nextLevelUI.SetActive(false);
     }
 
-    public void onLevelCompleted() {
-        transitionToNextLevel();
+    public void restartLevel() {
+        inputMgr.reinit();
+        lvlLoader.reloadLevel();
+
     }
-
+    
     public void transitionToNextLevel() {
-        nextLevelUI.SetActive(true);
-
+        // disable collisions between players
         switchPlayerColliders(false);
+        // show level changing screen
+        nextLevelUI.SetActive(true);
+        // reinit input and movement method
+        inputMgr.reinit();
+        // load next level into scene
         lvlLoader.loadNextLevel();
+        // disable loading screen after certain time
         Invoke("hideNextLevelLoadingScreen", nextLevelLoadingScreenTime);
     }
 
     void hideNextLevelLoadingScreen() {
         nextLevelUI.SetActive(false);
-
         switchPlayerColliders(true);
     }
 
     public void switchPlayerColliders(bool on) {
-        playerOne.gameObject.GetComponent<BoxCollider>().enabled = on;
-        playerTwo.gameObject.GetComponent<BoxCollider>().enabled = on;
+        foreach (BoxCollider c in playerOne.gameObject.GetComponents<BoxCollider>())
+            c.enabled = on;
+        foreach (BoxCollider c in playerTwo.gameObject.GetComponents<BoxCollider>())
+            c.enabled = on;
     }
 
     public GameObject getPlayerOne()
