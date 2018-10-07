@@ -49,9 +49,10 @@ public class PlayerMovement : MonoBehaviour {
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
             yield return null;
         }
+        isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);
     //    Debug.Log("PlayerMovement :: heheheheheh");
-        isPerformingAction = false;
+        
     }
 
 
