@@ -1646,8 +1646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3ee91270b744a49ae45e7f48aac005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDirectMovement: 0
-  useSequentialMovement: 1
+  useDirectMovement: 1
+  useSequentialMovement: 0
   useNetworkMovement: 0
 --- !u!114 &1409113766
 MonoBehaviour:
@@ -1696,6 +1696,8 @@ MonoBehaviour:
   moveSpeed: 3
   movementDelay: 0.1
   isPerformingAction: 0
+  playerOneAvailableMovements: 00000000
+  playerTwoAvailableMovements: 00000000
 --- !u!1 &1516890687
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,14 @@ public class PlayerMovement : MonoBehaviour {
     public float movementDelay = 0.1f;
     [HideInInspector]
     public bool isPerformingAction = false;
+    public bool[] playerOneAvailableMovements = new bool[4];//Down - Up - Right - Left
+    public bool[] playerTwoAvailableMovements = new bool[4];//Down - Up - Right - Left
+
+    private void Start()
+    {
+        reInitAvailableMovements(ePlayers.ONE);
+        reInitAvailableMovements(ePlayers.TWO);
+    }
 
     public void moveTwoPlayers(List<eCommands> commandSequenceP1, List<eCommands> commandSequenceP2) {
         Debug.Log("SequentialMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
@@ -24,7 +32,7 @@ public class PlayerMovement : MonoBehaviour {
         //determine player game object
         isPerformingAction = true;
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
-
+        command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
         switch (command) {
             case eCommands.NONE:
@@ -46,17 +54,26 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.LogError("PlayerMovement :: unknown Command");
                 break;
         }
-        int counter=1;
+
         while (currentPlayer.transform.position != destinationPos) {
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
-            Debug.Log(counter);
-            counter++;
             yield return null;
         }
+        for (int i = 0; i < 4; i++)
+        {
+            Debug.Log( i + " " + playerOneAvailableMovements[i]);
+        }
+        //Debug.Log(playerOneAvailableMovements);
         isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);
     //    Debug.Log("PlayerMovement :: heheheheheh");
         
+    }
+
+    public void modifyPlayerAvailableMovements(ePlayers player, int index, bool isAllowed)
+    {
+        bool[] arrayToModify = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
+        arrayToModify[index] = isAllowed;
     }
 
 
@@ -66,5 +83,39 @@ public class PlayerMovement : MonoBehaviour {
 
     public void stopRunningActions() {
         StopAllCoroutines();
+    }
+
+    private eCommands checkCommandValidity(ePlayers player, eCommands command)
+    {
+        bool[] boolList = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
+        if (command == eCommands.NONE)
+        {
+            return command;
+        }
+        int index = (int)command - 1;
+        if(!boolList[index])
+        {
+            command = eCommands.NONE;
+        }
+        return command;
+    }
+
+    public void reInitAvailableMovements(ePlayers player)
+    {
+        bool[] boolList = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
+
+        for (int i = 0; i < 4; i++)
+        {
+            boolList[i] = true;
+        }
+    }
+
+    public void reInitAvailableMovements()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            playerOneAvailableMovements[i] = true;
+            playerTwoAvailableMovements[i] = true;
+        }
     }
 }

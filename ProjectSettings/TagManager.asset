@@ -7,6 +7,7 @@ TagManager:
   - currentLevel
   - startPlayerOne
   - startPlayerTwo
+  - wall
   layers:
   - Default
   - TransparentFX
