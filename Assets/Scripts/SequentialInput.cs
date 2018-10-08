@@ -27,6 +27,10 @@ public class SequentialInput : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.D)) {
                 yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.RIGHT));
             } 
+            else if(Input.GetKeyDown(KeyCode.Space))
+            {
+                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.NONE));
+            }
             else if (Input.GetKeyDown(KeyCode.A)) {
                 yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.LEFT));
             }

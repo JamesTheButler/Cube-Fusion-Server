@@ -587,6 +587,16 @@ Prefab:
       propertyPath: gameMgr
       value: 
       objectReference: {fileID: 1409113762}
+    - target: {fileID: 54229187694316726, guid: 19a6bd561798dbd4dae6593f62153e63,
+        type: 2}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54229187694316726, guid: 19a6bd561798dbd4dae6593f62153e63,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19a6bd561798dbd4dae6593f62153e63, type: 2}
   m_IsPrefabAsset: 0
@@ -1636,8 +1646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3ee91270b744a49ae45e7f48aac005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDirectMovement: 1
-  useSequentialMovement: 0
+  useDirectMovement: 0
+  useSequentialMovement: 1
   useNetworkMovement: 0
 --- !u!114 &1409113766
 MonoBehaviour:

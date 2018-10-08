@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 destinationPos = currentPlayer.transform.position;
         switch (command) {
             case eCommands.NONE:
+                yield return new WaitForSeconds(1 / moveSpeed);
                 break;
             case eCommands.UP:
                 destinationPos += Vector3.forward;
@@ -45,8 +46,11 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.LogError("PlayerMovement :: unknown Command");
                 break;
         }
+        int counter=1;
         while (currentPlayer.transform.position != destinationPos) {
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+            Debug.Log(counter);
+            counter++;
             yield return null;
         }
         isPerformingAction = false;

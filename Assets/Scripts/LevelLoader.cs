@@ -31,6 +31,9 @@ public class LevelLoader : MonoBehaviour {
         currentLevelID = id;
         Debug.Log("LevelLoader :: loading level " + id);
 
+        //Stop movements
+        FindObjectOfType<PlayerMovement>().stopRunningActions();
+
         //remove currently loaded level
         unloadOldLevel();
 
