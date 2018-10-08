@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void moveTwoPlayers(List<eCommands> commandSequenceP1, List<eCommands> commandSequenceP2) {
-        Debug.Log("SequentialMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
+        Debug.Log("PlayerMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
         StartCoroutine(sequentialAction(ePlayers.ONE, commandSequenceP1));
         StartCoroutine(sequentialAction(ePlayers.TWO, commandSequenceP2));
     }

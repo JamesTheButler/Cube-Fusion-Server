@@ -29,14 +29,8 @@ public class InputManager : MonoBehaviour {
     public void reinit() {
         reinitSequentialInput();
         reinitNetworkInput();
-       // reinitPlayerMovement();
     }
-
-    // reset 
-    /*private void reinitPlayerMovement() {
-        playerMovement.stopRunningActions();
-    }*/
-
+    
     // restart the sequential input functionality
     public void reinitSequentialInput() {
         if (useSequentialMovement) {
