@@ -12,7 +12,6 @@ public class PlayerCollision : MonoBehaviour
 
         if (other.gameObject != this.gameObject)
         {
-          //  Debug.Log(gameMgr.GetComponent<PlayerMovement>().isPerformingAction);
 
             if (!playerMovement.isPerformingAction)
             {
@@ -20,11 +19,10 @@ public class PlayerCollision : MonoBehaviour
                 {
                     gameMgr.GetComponent<GameManager>().transitionToNextLevel();
                 }
-                setAvailableMovements(other);
+                
             }
+            setAvailableMovements(other);
         }
-
-        //Checks if the player is next to a wall and prevent movement towards the wall
        
 
         
