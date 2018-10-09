@@ -53,12 +53,14 @@ public class GameManager : MonoBehaviour {
         // load next level into scene
         lvlLoader.loadNextLevel();
         // disable loading screen after certain time
+        //TODO: enableInput(false);
         Invoke("hideNextLevelLoadingScreen", nextLevelLoadingScreenTime);
     }
 
     void hideNextLevelLoadingScreen() {
         nextLevelUI.SetActive(false);
         switchPlayerColliders(true);
+        //TODO: enableInput(true);
     }
 
     public void switchPlayerColliders(bool on) {

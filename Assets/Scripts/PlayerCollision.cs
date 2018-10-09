@@ -5,27 +5,22 @@ using UnityEngine;
 public class PlayerCollision : MonoBehaviour
 {
     public GameObject gameMgr;
+    public bool isPlayerOne;
 
     private void OnTriggerStay(Collider other) {
-
         PlayerMovement playerMovement = gameMgr.GetComponent<PlayerMovement>();
 
-        if (other.gameObject != this.gameObject)
+        if (isPlayerOne && other.gameObject != this.gameObject)
         {
-
             if (!playerMovement.isPerformingAction)
             {
                 if (other.tag == "Player")
                 {
                     gameMgr.GetComponent<GameManager>().transitionToNextLevel();
                 }
-                
             }
-            setAvailableMovements(other);
         }
-       
-
-        
+        setAvailableMovements(other);
     }
 
     private void OnTriggerExit(Collider other)

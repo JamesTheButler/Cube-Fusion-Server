@@ -8,6 +8,7 @@ TagManager:
   - startPlayerOne
   - startPlayerTwo
   - wall
+  - button
   layers:
   - Default
   - TransparentFX

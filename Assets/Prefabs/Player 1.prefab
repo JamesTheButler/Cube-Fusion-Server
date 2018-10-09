@@ -19,12 +19,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4117434515480282}
+  - component: {fileID: 114499433303021700}
   - component: {fileID: 65227589047530536}
   - component: {fileID: 65508522777717036}
   - component: {fileID: 65826745513016656}
   - component: {fileID: 65773916937175374}
   - component: {fileID: 54229187694316726}
-  - component: {fileID: 114499433303021700}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -132,7 +132,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &65227589047530536
 BoxCollider:
@@ -144,8 +144,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0, z: -0.5}
+  m_Size: {x: 0.2, y: 1, z: 0.4}
+  m_Center: {x: 0, y: 0, z: -0.4}
 --- !u!65 &65508522777717036
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -156,8 +156,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1, z: 0.2}
-  m_Center: {x: 0.5, y: 0, z: 0}
+  m_Size: {x: 0.4, y: 1, z: 0.2}
+  m_Center: {x: 0.4, y: 0, z: 0}
 --- !u!65 &65599170953759080
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -180,8 +180,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0.5}
+  m_Size: {x: 0.2, y: 1, z: 0.4}
+  m_Center: {x: 0, y: 0, z: 0.4}
 --- !u!65 &65826745513016656
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -192,8 +192,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 1, z: 0.2}
-  m_Center: {x: -0.5, y: 0, z: 0}
+  m_Size: {x: 0.4, y: 1, z: 0.2}
+  m_Center: {x: -0.4, y: 0, z: 0}
 --- !u!114 &114499433303021700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,3 +206,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMgr: {fileID: 0}
+  isPlayerOne: 1
