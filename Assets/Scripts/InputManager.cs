@@ -35,9 +35,11 @@ public class InputManager : MonoBehaviour {
     public void reinitSequentialInput() {
         if (useSequentialMovement) {
             Debug.Log("InputManager :: reinit sequential movement");
-            SequentialInput sequentialMovement = FindObjectOfType<SequentialInput>();
-            StopCoroutine(sequentialMovement.readInput());
-            StartCoroutine(sequentialMovement.readInput());
+            SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
+            //StopCoroutine(sequentialMovement.readInput());
+            sequentialInput.stopWaitingForInputs();
+            new WaitForEndOfFrame();
+           // StartCoroutine(sequentialInput.readInput());
         }
     }
 

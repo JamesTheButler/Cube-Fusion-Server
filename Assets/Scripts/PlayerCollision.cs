@@ -35,7 +35,7 @@ public class PlayerCollision : MonoBehaviour
     {
         PlayerMovement playerMovement = gameMgr.GetComponent<PlayerMovement>();
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
-        if (other.tag == "wall")
+        if (other.transform.parent.tag == "wall")
         {
             double diffX = other.transform.position.x - this.transform.position.x;
             double checkX = (other.transform.lossyScale.x + this.transform.lossyScale.x) / 2;

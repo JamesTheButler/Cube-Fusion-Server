@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void restartLevel() {
+        Debug.Log("restart lvl");
         inputMgr.reinit();
         lvlLoader.reloadLevel();
 

@@ -45,6 +45,10 @@ public class SequentialInput : MonoBehaviour {
             if(Input.GetKeyDown(KeyCode.RightArrow)) {
                 yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.RIGHT));
             }
+            else if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.NONE));
+            }
             else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
                 yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.LEFT));
             }
@@ -62,6 +66,12 @@ public class SequentialInput : MonoBehaviour {
         playerMovement.moveTwoPlayers(playerOneMovement, playerTwoMovement);
     }
 
+    public void stopWaitingForInputs()
+    {
+        playerOneMovement.Clear();
+        playerTwoMovement.Clear();
+        StopAllCoroutines();
+    }
 
     private IEnumerator registerInput(ePlayers player, eCommands command) {
         List<eCommands> playerList = player == ePlayers.ONE ? playerOneMovement : playerTwoMovement;
