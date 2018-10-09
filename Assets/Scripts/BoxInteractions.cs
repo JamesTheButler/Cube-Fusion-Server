@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoxInteractions : MonoBehaviour {
 
-    bool[] wallsNextToBox = new bool[4];
+    public bool[] wallsNextToBox = new bool[4];
 
 	// Use this for initialization
 	void Start () {
@@ -16,10 +16,12 @@ public class BoxInteractions : MonoBehaviour {
 		
 	}
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.transform.parent.tag == "wall")
+        
+        if (other.transform.parent.tag == "wall" || other.transform.parent.tag == "Player")
         {
+            Debug.Log("Box found a wall");
             double diffX = other.transform.position.x - this.transform.position.x;
             double checkX = (other.transform.lossyScale.x + this.transform.lossyScale.x) / 2;
             double diffZ = other.transform.position.z - this.transform.position.z;
@@ -43,6 +45,7 @@ public class BoxInteractions : MonoBehaviour {
         }
     }
 
+
     public bool canMoveToDirection(eCommands command)
     {
         return !wallsNextToBox[(int)command - 1];
@@ -50,6 +53,10 @@ public class BoxInteractions : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        for(int i = 0; i < 4; i++)
+        {
+            wallsNextToBox[i] = false;
+        }
     }
 
 
