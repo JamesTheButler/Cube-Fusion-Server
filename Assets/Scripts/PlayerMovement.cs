@@ -18,6 +18,13 @@ public class PlayerMovement : MonoBehaviour {
 
     public void moveTwoPlayers(List<eCommands> commandSequenceP1, List<eCommands> commandSequenceP2) {
         Debug.Log("PlayerMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
+        string p1Output = "", p2Output="";
+        foreach (eCommands cmd in commandSequenceP1)
+            p1Output += cmd + ", ";
+        foreach (eCommands cmd in commandSequenceP2)
+            p2Output += cmd + ", ";
+        Debug.Log(p1Output);
+        Debug.Log(p2Output);
         StartCoroutine(sequentialAction(ePlayers.ONE, commandSequenceP1));
         StartCoroutine(sequentialAction(ePlayers.TWO, commandSequenceP2));
     }
@@ -59,10 +66,10 @@ public class PlayerMovement : MonoBehaviour {
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
             yield return null;
         }
-        for (int i = 0; i < 4; i++)
+     /*   for (int i = 0; i < 4; i++)
         {
             Debug.Log( i + " " + playerOneAvailableMovements[i]);
-        }
+        }*/
         //Debug.Log(playerOneAvailableMovements);
         isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);

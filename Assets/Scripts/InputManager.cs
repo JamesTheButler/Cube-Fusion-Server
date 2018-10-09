@@ -27,17 +27,19 @@ public class InputManager : MonoBehaviour {
     }
 
     public void reinit() {
-        reinitSequentialInput();
+        StartCoroutine(reinitSequentialInput());
         reinitNetworkInput();
     }
     
     // restart the sequential input functionality
-    public void reinitSequentialInput() {
+    public IEnumerator reinitSequentialInput() {
         if (useSequentialMovement) {
             Debug.Log("InputManager :: reinit sequential movement");
-            SequentialInput sequentialMovement = FindObjectOfType<SequentialInput>();
-            StopCoroutine(sequentialMovement.readInput());
-            StartCoroutine(sequentialMovement.readInput());
+            SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
+            //StopCoroutine(sequentialMovement.readInput());
+            sequentialInput.stopWaitingForInputs();
+            yield return null;
+            StartCoroutine(sequentialInput.readInput());
         }
     }
 

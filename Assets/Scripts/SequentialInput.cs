@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SequentialInput : MonoBehaviour {
     PlayerMovement playerMovement;
+    bool haveToReadInputs = true;
 
     List<eCommands> playerOneMovement = new List<eCommands>();
     List<eCommands> playerTwoMovement = new List<eCommands>();
@@ -16,57 +17,69 @@ public class SequentialInput : MonoBehaviour {
     //Simulates the creation of a sequence (by pressing buttons wasd)
     //Then when the user presses return : reads the inputs in the console
     public IEnumerator readInput() {
+        haveToReadInputs = true;
         yield return null;
         playerOneMovement.Clear();
         playerTwoMovement.Clear();
 
         Debug.Log("SequentialInput :: Waiting for Input");
-        while (!Input.GetKeyDown(KeyCode.Return))
+        while (!Input.GetKeyDown(KeyCode.Return) && haveToReadInputs)
         {
             // Player One input            
             if (Input.GetKeyDown(KeyCode.D)) {
-                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.RIGHT));
+                registerInput(ePlayers.ONE, eCommands.RIGHT);
             } 
             else if(Input.GetKeyDown(KeyCode.Space))
             {
-                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.NONE));
+                registerInput(ePlayers.ONE, eCommands.NONE);
             }
             else if (Input.GetKeyDown(KeyCode.A)) {
-                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.LEFT));
+                registerInput(ePlayers.ONE, eCommands.LEFT);
             }
             else if (Input.GetKeyDown(KeyCode.W)) {
-                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.UP));
+                registerInput(ePlayers.ONE, eCommands.UP);
             }
             else if (Input.GetKeyDown(KeyCode.S)) {
-                yield return StartCoroutine(registerInput(ePlayers.ONE, eCommands.DOWN));
+                registerInput(ePlayers.ONE, eCommands.DOWN);
             }
             
             //Player two input
             if(Input.GetKeyDown(KeyCode.RightArrow)) {
-                yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.RIGHT));
+                registerInput(ePlayers.TWO, eCommands.RIGHT);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                registerInput(ePlayers.TWO, eCommands.NONE);
             }
             else if(Input.GetKeyDown(KeyCode.LeftArrow)) {
-                yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.LEFT));
+                registerInput(ePlayers.TWO, eCommands.LEFT);
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.UP));
+                registerInput(ePlayers.TWO, eCommands.UP);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                yield return StartCoroutine(registerInput(ePlayers.TWO, eCommands.DOWN));
+                registerInput(ePlayers.TWO, eCommands.DOWN);
             }
             yield return null;
             
         }
 
         Debug.Log("SequentialInput :: Starting movements");
+        if(haveToReadInputs)
         playerMovement.moveTwoPlayers(playerOneMovement, playerTwoMovement);
     }
 
+    public void stopWaitingForInputs()
+    {
+        haveToReadInputs = false;
+        playerOneMovement.Clear();
+        playerTwoMovement.Clear();   
+        StopAllCoroutines();
+    }
 
-    private IEnumerator registerInput(ePlayers player, eCommands command) {
+    private void registerInput(ePlayers player, eCommands command) {
         List<eCommands> playerList = player == ePlayers.ONE ? playerOneMovement : playerTwoMovement;
         playerList.Add(command);
-        yield return null;
         Debug.Log("SequentialInput :: Waiting for a new Input");
     }
 }
