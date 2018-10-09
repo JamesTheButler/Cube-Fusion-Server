@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour {
     public bool isPerformingAction = false;
     public bool[] playerOneAvailableMovements = new bool[4];//Down - Up - Right - Left
     public bool[] playerTwoAvailableMovements = new bool[4];//Down - Up - Right - Left
+    public GameObject[] boxesNextToPlayerOne = new GameObject[4];//Down - Up - Right - Left
+    public GameObject[] boxesNextToPlayerTwo = new GameObject[4];//Down - Up - Right - Left
 
     private void Start()
     {
@@ -39,22 +41,46 @@ public class PlayerMovement : MonoBehaviour {
         //determine player game object
         isPerformingAction = true;
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
+        GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
+        GameObject box = null;
+        Vector3 boxMovement = new Vector3();
         command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
-        switch (command) {
+        switch (command)
+        {
             case eCommands.NONE:
                 yield return new WaitForSeconds(1 / moveSpeed);
                 break;
             case eCommands.UP:
+                if (boxList[(int)eCommands.UP - 1] != null)
+                {
+                    box = boxList[(int)eCommands.UP - 1];
+                    boxMovement = Vector3.forward;
+                }     
                 destinationPos += Vector3.forward;
                 break;
             case eCommands.DOWN:
+                if (boxList[(int)eCommands.DOWN - 1] != null)
+                {
+                    box = boxList[(int)eCommands.DOWN - 1];
+                    boxMovement = Vector3.back;
+                }
                 destinationPos += Vector3.back;
                 break;
             case eCommands.RIGHT:
+                if (boxList[(int)eCommands.RIGHT - 1] != null)
+                {
+                    box = boxList[(int)eCommands.RIGHT - 1];
+                    boxMovement = Vector3.right;
+                }
                 destinationPos += Vector3.right;
                 break;
             case eCommands.LEFT:
+                if (boxList[(int)eCommands.LEFT - 1] != null)
+                {
+                    box = boxList[(int)eCommands.LEFT - 1];
+                    boxMovement = Vector3.left;
+                }
                 destinationPos += Vector3.left;
                 break;
             default:
@@ -63,6 +89,10 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         while (currentPlayer.transform.position != destinationPos) {
+            if (box != null)
+            {
+                box.transform.position = Vector3.MoveTowards(box.transform.position, box.transform.position + boxMovement, Time.deltaTime * moveSpeed);
+            }
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
             yield return null;
         }
@@ -83,6 +113,12 @@ public class PlayerMovement : MonoBehaviour {
         arrayToModify[index] = isAllowed;
     }
 
+    public void modifyBoxesNextToPlayer(ePlayers player, int index, GameObject box)
+    {
+        GameObject[] arrayToModify = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
+        arrayToModify[index] = box;
+    }
+
 
     public void resetPlayerPosition(Vector3 newPosP1,Vector3 newPosP2) {
 
@@ -95,12 +131,19 @@ public class PlayerMovement : MonoBehaviour {
     private eCommands checkCommandValidity(ePlayers player, eCommands command)
     {
         bool[] boolList = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
+        int index = (int)command - 1;
+        GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
+        GameObject box = boxList[index];
         if (command == eCommands.NONE)
         {
             return command;
         }
-        int index = (int)command - 1;
-        if(!boolList[index])
+        if (!boolList[index])
+        {
+            command = eCommands.NONE;
+        }
+        //TODO merge to the other if, if working properly
+        else if (boxList[index] != null && !box.GetComponent<BoxInteractions>().canMoveToDirection(command))
         {
             command = eCommands.NONE;
         }
