@@ -43,25 +43,25 @@ public class PlayerCollision : MonoBehaviour
             double checkZ = (other.transform.lossyScale.z + this.transform.lossyScale.z) / 2;
             if (diffX == checkX)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.RIGHT - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.RIGHT - 1, false);
             }
             if (diffX == -checkX)
             {     
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.LEFT - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.LEFT - 1, false);
             }
             if (diffZ == checkZ)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.UP - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.UP - 1, false);
             }
             if (diffZ == -checkZ)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.DOWN - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.DOWN - 1, false);
             }  
         }
     }
 
 
-    private void updateBoxesNextToPlayer(Collider other)
+   /* private void updateBoxesNextToPlayer(Collider other)
     {
         PlayerMovement playerMovement = gameMgr.GetComponent<PlayerMovement>();
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
@@ -89,5 +89,5 @@ public class PlayerCollision : MonoBehaviour
                 playerMovement.modifyBoxesNextToPlayer(player, (int)eCommands.DOWN - 1, other.gameObject);
             }
         }
-    }
+    }*/
 }

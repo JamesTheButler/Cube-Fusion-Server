@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1593,8 +1593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useDirectMovement: 0
-  useSequentialMovement: 0
-  useNetworkMovement: 1
+  useSequentialMovement: 1
+  useNetworkMovement: 0
 --- !u!114 &1409113766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,6 +1633,16 @@ MonoBehaviour:
   isPerformingAction: 0
   playerOneAvailableMovements: 00000000
   playerTwoAvailableMovements: 00000000
+  boxesNextToPlayerOne:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  boxesNextToPlayerTwo:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &1435656992
 Prefab:
   m_ObjectHideFlags: 0
@@ -1841,6 +1851,10 @@ Prefab:
     - target: {fileID: 4607329116531038, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1102758081725960, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
