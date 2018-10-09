@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
         GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
         GameObject box = null;
-        Vector3 boxMovement = new Vector3();
+        Vector3 boxNewPosition = new Vector3();
         command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
         switch (command)
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (boxList[(int)eCommands.UP - 1] != null)
                 {
                     box = boxList[(int)eCommands.UP - 1];
-                    boxMovement = Vector3.forward;
+                    boxNewPosition = box.transform.position + Vector3.forward;
                 }     
                 destinationPos += Vector3.forward;
                 break;
@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (boxList[(int)eCommands.DOWN - 1] != null)
                 {
                     box = boxList[(int)eCommands.DOWN - 1];
-                    boxMovement = Vector3.back;
+                    boxNewPosition = box.transform.position + Vector3.back;
                 }
                 destinationPos += Vector3.back;
                 break;
@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (boxList[(int)eCommands.RIGHT - 1] != null)
                 {
                     box = boxList[(int)eCommands.RIGHT - 1];
-                    boxMovement = Vector3.right;
+                    boxNewPosition = box.transform.position + Vector3.right;
                 }
                 destinationPos += Vector3.right;
                 break;
@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (boxList[(int)eCommands.LEFT - 1] != null)
                 {
                     box = boxList[(int)eCommands.LEFT - 1];
-                    boxMovement = Vector3.left;
+                    boxNewPosition = box.transform.position + Vector3.left;
                 }
                 destinationPos += Vector3.left;
                 break;
@@ -89,11 +89,11 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         while (currentPlayer.transform.position != destinationPos) {
+            currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
             if (box != null)
             {
-                box.transform.position = Vector3.MoveTowards(box.transform.position, box.transform.position + boxMovement, Time.deltaTime * moveSpeed);
+                box.transform.position = Vector3.MoveTowards(box.transform.position, boxNewPosition, Time.deltaTime * moveSpeed);
             }
-            currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
             yield return null;
         }
      /*   for (int i = 0; i < 4; i++)

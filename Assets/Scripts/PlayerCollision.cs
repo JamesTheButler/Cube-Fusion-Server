@@ -21,6 +21,7 @@ public class PlayerCollision : MonoBehaviour
             }
         }
         setAvailableMovements(other);
+        updateBoxesNextToPlayer(other);
     }
 
     private void OnTriggerExit(Collider other)
@@ -37,25 +38,26 @@ public class PlayerCollision : MonoBehaviour
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
         if (other.transform.parent.tag == "wall")
         {
+            Debug.Log("Found a wall");
             double diffX = other.transform.position.x - this.transform.position.x;
             double checkX = (other.transform.lossyScale.x + this.transform.lossyScale.x) / 2;
             double diffZ = other.transform.position.z - this.transform.position.z;
             double checkZ = (other.transform.lossyScale.z + this.transform.lossyScale.z) / 2;
             if (diffX == checkX)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.RIGHT - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.RIGHT - 1, false);
             }
             if (diffX == -checkX)
             {     
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.LEFT - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.LEFT - 1, false);
             }
             if (diffZ == checkZ)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.UP - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.UP - 1, false);
             }
             if (diffZ == -checkZ)
             {
-                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.DOWN - 1, this.gameObject);
+                playerMovement.modifyPlayerAvailableMovements(player, (int)eCommands.DOWN - 1, false);
             }  
         }
     }
