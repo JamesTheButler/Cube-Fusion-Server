@@ -91,11 +91,13 @@ public class ServerManager : MonoBehaviour
         if (player1Id == 0)
         {
             player1Id = netMessage.conn.connectionId;
+            Debug.Log("Player 1 connected");
             messageContainer.message = "Thanks for joining! You are the green cube";
         }
         else if (player2Id == 0)
         {
             player2Id = netMessage.conn.connectionId;
+            Debug.Log("Player 2 connected");
             messageContainer.message = "Thanks for joining! You are the yellow cube";
         }
         else
@@ -132,6 +134,8 @@ public class ServerManager : MonoBehaviour
         }
         else return;
 
+        commandList.Clear();
+
         for (int i = 0; i<msg.Length;i++)
         {
             char c = msg[i];
@@ -139,7 +143,6 @@ public class ServerManager : MonoBehaviour
             {
                 case 'U':
                     commandList.Add(eCommands.UP);
-                    Debug.Log("UP");
                     break;
                 case 'D':
                     commandList.Add(eCommands.DOWN);
@@ -158,12 +161,12 @@ public class ServerManager : MonoBehaviour
         if (playerId == player1Id)
         {
             playerOneReady = true;
-            Debug.Log("Player One is ready to roll !!");
+            Debug.Log("Player One is ready");
         }
         else if (playerId == player2Id)
         {
             playerTwoReady = true;
-            Debug.Log("Player Two is ready to roll !!");
+            Debug.Log("Player Two is ready");
         }
     }
 
@@ -193,8 +196,5 @@ public class ServerManager : MonoBehaviour
         gameManager.GetComponent<PlayerMovement>().moveTwoPlayers(playerOneCommands, playerTwoCommands);
         playerOneReady = false;
         playerTwoReady = false;
-
-        playerOneCommands.Clear();
-        playerTwoCommands.Clear();
     }
 }

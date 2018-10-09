@@ -1593,8 +1593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useDirectMovement: 0
-  useSequentialMovement: 1
-  useNetworkMovement: 0
+  useSequentialMovement: 0
+  useNetworkMovement: 1
 --- !u!114 &1409113766
 MonoBehaviour:
   m_ObjectHideFlags: 0
