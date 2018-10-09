@@ -9,6 +9,7 @@ TagManager:
   - startPlayerTwo
   - wall
   - button
+  - box
   layers:
   - Default
   - TransparentFX
