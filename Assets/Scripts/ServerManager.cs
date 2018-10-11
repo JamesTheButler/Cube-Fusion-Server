@@ -12,12 +12,12 @@ public class ServerManager : MonoBehaviour
     }
 
     public GameObject gameManager;
-
+    public AdminUIManager adminUiMgr;
     int port = 5555;
 
     //Message types
-    short messageID = 1000;
-    short queueID = 1001;
+    private const short MESSAGE_ID = 1000;
+    private const short QUEUE_ID = 1001;
 
     int player1Id=0;
     int player2Id=0;
@@ -76,8 +76,8 @@ public class ServerManager : MonoBehaviour
         NetworkServer.RegisterHandler(MsgType.Disconnect, OnClientDisconnected);
         
         // Custom stuff
-        NetworkServer.RegisterHandler(messageID, OnMessageReceived);
-        NetworkServer.RegisterHandler(queueID, OnQueueReceived);
+        NetworkServer.RegisterHandler(MESSAGE_ID, OnMessageReceived);
+        NetworkServer.RegisterHandler(QUEUE_ID, OnQueueReceived);
     }
 
     private void RegisterHandler(short t, NetworkMessageDelegate handler)
@@ -91,14 +91,16 @@ public class ServerManager : MonoBehaviour
         if (player1Id == 0)
         {
             player1Id = netMessage.conn.connectionId;
+            adminUiMgr.setPlayerIsConnected(ePlayers.ONE, true);
             Debug.Log("Player 1 connected");
-            messageContainer.message = "Thanks for joining! You are the green cube";
+            messageContainer.message = "Thanks for joining! You are Player 1";
         }
         else if (player2Id == 0)
         {
             player2Id = netMessage.conn.connectionId;
+            adminUiMgr.setPlayerIsConnected(ePlayers.TWO, true);
             Debug.Log("Player 2 connected");
-            messageContainer.message = "Thanks for joining! You are the yellow cube";
+            messageContainer.message = "Thanks for joining! You are Player 2";
         }
         else
         {
@@ -106,14 +108,14 @@ public class ServerManager : MonoBehaviour
         }
 
         // This sends a message to a specific client, using the connectionId
-        NetworkServer.SendToClient(netMessage.conn.connectionId, messageID, messageContainer);
+        NetworkServer.SendToClient(netMessage.conn.connectionId, MESSAGE_ID, messageContainer);
 
         // Send a message to all the clients connected
         messageContainer = new DataMessage();
         messageContainer.message = "A new player has connected to the server.";
 
         // Broadcast a message a to everyone connected
-        NetworkServer.SendToAll(messageID, messageContainer);
+        NetworkServer.SendToAll(MESSAGE_ID, messageContainer);
     }
 
     void OnQueueReceived(NetworkMessage netMessage)
@@ -176,11 +178,13 @@ public class ServerManager : MonoBehaviour
         {
             player1Id = 0;
             Debug.Log("Player One is out");
+            adminUiMgr.setPlayerIsConnected(ePlayers.ONE, false);
         }
         else if (netMessage.conn.connectionId == player2Id)
         {
             player2Id = 0;
             Debug.Log("Player Two is out");
+            adminUiMgr.setPlayerIsConnected(ePlayers.ONE, false);
         }
     }
 
