@@ -26,6 +26,7 @@ public class InputManager : MonoBehaviour {
        }
     }
 
+    //TODO: reinit network input correctly
     public void reinit() {
         StartCoroutine(reinitSequentialInput());
         reinitNetworkInput();
@@ -34,6 +35,7 @@ public class InputManager : MonoBehaviour {
     // restart the sequential input functionality
     public IEnumerator reinitSequentialInput() {
         if (useSequentialMovement) {
+
             Debug.Log("InputManager :: reinit sequential movement");
             SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
             //StopCoroutine(sequentialMovement.readInput());

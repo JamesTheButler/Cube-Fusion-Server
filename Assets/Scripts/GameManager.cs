@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
     public float loadingScreenTime;
     public float fadeOutTime;
     public float waitTimeBeforeFade;
-
+    public bool isLevelCompleted = false;
     LevelLoader lvlLoader;
     InputManager inputMgr;
     PlayerMovement playerMovement;
@@ -47,79 +47,66 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    private void Update()
+    void Update()
     {
         //Checks if the players finished their movements
-        if (playerMovement.playersFinishedTheirSequence[0] && playerMovement.playersFinishedTheirSequence[1] && !PlayerCollision.getLevelCompletionState())
+        if (playerMovement.playersFinishedTheirSequence[0] && playerMovement.playersFinishedTheirSequence[1] && !isLevelCompleted)
         {
-            FindObjectOfType<GameManager>().restartLevel();
-            playerMovement.playersFinishedTheirSequence[0] = false;
-            playerMovement.playersFinishedTheirSequence[1] = false;
+            FindObjectOfType<GameManager>().finishLevel(false);
+            isLevelCompleted = false;
+            playerMovement.reInitPlayerFinishedSequence();
         }
     }
 
-    public void restartLevel() {
-        Debug.Log("restart lvl");
+    public void finishLevel(bool hasSucceeded) {          
+        switchPlayerColliders(false);
         inputMgr.reinit();
-        PlayerCollision.setLevelCompletionState(false);
-        lvlLoader.reloadLevel();
-    }
 
-    public void finishLevel(bool isSucceeded) {
-        if (isSucceeded) {                      // level completed
-            Debug.Log("GameManager :: Level succesfully completed");
-            // disable collisions between players
-            switchPlayerColliders(false);
-            // reinit input and movement method
-            inputMgr.reinit();
-            // start transition to show next level
-            StartCoroutine(levelTransition());
-        } else {                            // level failed
-
+        if (hasSucceeded) {            // level completed
+            isLevelCompleted = true;
+            StartCoroutine(levelTransition(false));
+        } else {                       // level failed
+            StartCoroutine(levelTransition(true));
         }
     }
 
-    private IEnumerator levelTransition() {
+    private IEnumerator levelTransition(bool doRestartLevel) {
+        //wait before fading, so players see the result
         yield return new WaitForSeconds(waitTimeBeforeFade);
-        // init UI fading
-        float alpha = 0f;
-        Color textColor = nextLevelUI.GetComponentInChildren<Text>().color;
-        if (textColor == null)
-            Debug.LogError("color empty");
-        Color backGroundColor = nextLevelUI.GetComponentInChildren<Image>().color;
 
-        // make ui invisible
-        textColor.a = alpha;
-        backGroundColor.a = alpha;
+        Debug.Log(doRestartLevel);
+        // set text to show
+        if (doRestartLevel)
+            nextLevelUI.GetComponentInChildren<Text>().text = "Ouch! That didn't work. You'll have to try again ...";
+        else
+            nextLevelUI.GetComponentInChildren<Text>().text = "Good job, you did it! Loading next level ...";
+
+        // init UI fading
+        nextLevelUI.GetComponent<CanvasGroup>().alpha = 0f;
 
         //fade in ui
-        while (alpha < 1f) {
-            alpha += Time.deltaTime / fadeInTime;
-            textColor.a = alpha;
-            backGroundColor.a = alpha;
-
-            nextLevelUI.GetComponentInChildren<Text>().color = textColor;
-            nextLevelUI.GetComponentInChildren<Image>().color = backGroundColor;
+        while (nextLevelUI.GetComponent<CanvasGroup>().alpha < 1f) {
+            nextLevelUI.GetComponent<CanvasGroup>().alpha += Time.deltaTime / fadeInTime;
             yield return null;
         }
-        //show ui for certain time
         yield return new WaitForSeconds(loadingScreenTime);
-        //nextLevelUI.SetActive(false);
+
+        // load level
+        if (doRestartLevel)
+            lvlLoader.reloadLevel();
+        else
+            lvlLoader.loadNextLevel();
+
+        // init level
         switchPlayerColliders(true);
-        PlayerCollision.setLevelCompletionState(false);
-        lvlLoader.loadNextLevel();
-        GetComponent<PlayerMovement>().reInitAvailableMovements();
+        isLevelCompleted = false;
+        playerMovement.reInitPlayerFinishedSequence();
+        playerMovement.reInitAvailableMovements();
 
-        //set alpha to 1 for safety
-        alpha = 1f;
         //fade out
-        while (alpha > 0f) {
-            alpha -= Time.deltaTime / fadeInTime;
-            textColor.a = alpha;
-            backGroundColor.a = alpha;
-
-            nextLevelUI.GetComponentInChildren<Text>().color = textColor;
-            nextLevelUI.GetComponentInChildren<Image>().color = backGroundColor;
+        nextLevelUI.GetComponent<CanvasGroup>().alpha = 1f;
+        while (nextLevelUI.GetComponent<CanvasGroup>().alpha > 0f) {
+            nextLevelUI.GetComponent<CanvasGroup>().alpha -= Time.deltaTime / fadeInTime;
             yield return null;
         }
     }

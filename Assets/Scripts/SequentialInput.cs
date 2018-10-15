@@ -66,7 +66,7 @@ public class SequentialInput : MonoBehaviour {
 
         Debug.Log("SequentialInput :: Starting movements");
         if(haveToReadInputs)
-        playerMovement.moveTwoPlayers(playerOneMovement, playerTwoMovement);
+            playerMovement.moveTwoPlayers(playerOneMovement, playerTwoMovement);
     }
 
     public void stopWaitingForInputs()
@@ -80,6 +80,6 @@ public class SequentialInput : MonoBehaviour {
     private void registerInput(ePlayers player, eCommands command) {
         List<eCommands> playerList = player == ePlayers.ONE ? playerOneMovement : playerTwoMovement;
         playerList.Add(command);
-        Debug.Log("SequentialInput :: Waiting for a new Input");
+        //Debug.Log("SequentialInput :: Waiting for a new Input");
     }
 }

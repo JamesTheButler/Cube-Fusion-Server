@@ -17,17 +17,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         reInitAvailableMovements(ePlayers.ONE);
         reInitAvailableMovements(ePlayers.TWO);
+        reInitPlayerFinishedSequence();
     }
 
     public void moveTwoPlayers(List<eCommands> commandSequenceP1, List<eCommands> commandSequenceP2) {
-        Debug.Log("PlayerMovement :: P1 " + commandSequenceP1.Count + " P2 " + commandSequenceP2.Count);
-        string p1Output = "", p2Output="";
-        foreach (eCommands cmd in commandSequenceP1)
-            p1Output += cmd + ", ";
-        foreach (eCommands cmd in commandSequenceP2)
-            p2Output += cmd + ", ";
-        Debug.Log(p1Output);
-        Debug.Log(p2Output);
         StartCoroutine(sequentialAction(ePlayers.ONE, commandSequenceP1));
         StartCoroutine(sequentialAction(ePlayers.TWO, commandSequenceP2));
     }
@@ -37,8 +30,6 @@ public class PlayerMovement : MonoBehaviour {
             yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
         }
         playersFinishedTheirSequence[(int) playerId] = true;
-
-        
     }
 
     public IEnumerator playerAction(ePlayers player, eCommands command) {
@@ -169,5 +160,11 @@ public class PlayerMovement : MonoBehaviour {
             boxesNextToPlayerOne[i] = null;
             boxesNextToPlayerTwo[i] = null;
         }
+    }
+
+    public void reInitPlayerFinishedSequence() {
+
+        playersFinishedTheirSequence[0] = false;
+        playersFinishedTheirSequence[1] = false;
     }
 }
