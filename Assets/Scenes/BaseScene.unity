@@ -141,7 +141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2133231116}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4191416
 MonoBehaviour:
@@ -236,7 +236,9 @@ Transform:
   - {fileID: 1409113763}
   - {fileID: 580833562}
   - {fileID: 1730444158}
+  - {fileID: 1765726849}
   - {fileID: 534669905}
+  - {fileID: 1684690018}
   - {fileID: 170076735}
   - {fileID: 979141071}
   - {fileID: 983245029}
@@ -506,7 +508,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 20659571}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &176111358
 GameObject:
@@ -846,7 +848,7 @@ GameObject:
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Gameplay Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -910,7 +912,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 20659571}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 53.603, y: 0, z: 0}
 --- !u!1 &546562173
 GameObject:
@@ -1917,7 +1919,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4842941891489400, guid: 40a5864488115d341b2f26364eb8e653, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114255668134738352, guid: 40a5864488115d341b2f26364eb8e653,
         type: 2}
@@ -1989,8 +1991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3ee91270b744a49ae45e7f48aac005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useDirectMovement: 1
-  useSequentialMovement: 0
+  useDirectMovement: 0
+  useSequentialMovement: 1
   useNetworkMovement: 0
 --- !u!114 &1409113766
 MonoBehaviour:
@@ -2200,7 +2202,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4117434515480282, guid: 19a6bd561798dbd4dae6593f62153e63, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114499433303021700, guid: 19a6bd561798dbd4dae6593f62153e63,
         type: 2}
@@ -2413,7 +2415,7 @@ GameObject:
   - component: {fileID: 1684690020}
   - component: {fileID: 1684690019}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Admin View Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2425,12 +2427,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1684690017}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 100, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1765726849}
-  m_RootOrder: 1
+  m_Father: {fileID: 20659571}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1684690019
 AudioListener:
@@ -2542,7 +2544,7 @@ GameObject:
   - component: {fileID: 1765726849}
   - component: {fileID: 1765726848}
   m_Layer: 0
-  m_Name: Admin View
+  m_Name: Admin UI Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2573,14 +2575,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1765726847}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5499997, y: 0, z: -0.5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2058035578}
-  - {fileID: 1684690018}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Children: []
+  m_Father: {fileID: 20659571}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1847615640
 Prefab:
@@ -2619,7 +2619,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4961497166097440, guid: def039b8f6056194b8c4fdaeb272fb19, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284390541056828, guid: def039b8f6056194b8c4fdaeb272fb19, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: def039b8f6056194b8c4fdaeb272fb19, type: 2}
@@ -2882,7 +2886,7 @@ GameObject:
   - component: {fileID: 2058035580}
   - component: {fileID: 2058035579}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Admin UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2903,7 +2907,7 @@ RectTransform:
   - {fileID: 1415835787}
   - {fileID: 1024936853}
   - {fileID: 1604889868}
-  m_Father: {fileID: 1765726849}
+  m_Father: {fileID: 2133231116}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2993,9 +2997,10 @@ Transform:
   m_LocalPosition: {x: 527, y: 307, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4191415}
+  - {fileID: 2058035578}
   - {fileID: 439045776}
   - {fileID: 788793323}
+  - {fileID: 4191415}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
