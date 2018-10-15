@@ -15,7 +15,7 @@ public class PlayerCollision : MonoBehaviour
         {
             if (!playerMovement.isPerformingAction)
             {
-                if (other.tag == "Player")
+                if (other.transform.parent.tag == "Player")
                 {
                     gameMgr.GetComponent<GameManager>().finishLevel(true);
                 }
