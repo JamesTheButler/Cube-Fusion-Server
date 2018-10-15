@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
 
     LevelLoader lvlLoader;
     InputManager inputMgr;
+    PlayerMovement playerMovement;
 
 
 
@@ -40,12 +41,29 @@ public class GameManager : MonoBehaviour {
         inputMgr = FindObjectOfType<InputManager>();
         inputMgr.reinit();
 
+        playerMovement = FindObjectOfType<PlayerMovement>();
+        playerMovement.reInitAvailableMovements();
+        playerMovement.reInitBoxesNextToPlayer();
+
        // nextLevelUI.SetActive(false);
+    }
+
+
+    private void Update()
+    {
+        //Checks if the players finished their movements
+        if (playerMovement.playersFinishedTheirSequence[0] && playerMovement.playersFinishedTheirSequence[1] && !PlayerCollision.getLevelCompletionState())
+        {
+            FindObjectOfType<GameManager>().restartLevel();
+            playerMovement.playersFinishedTheirSequence[0] = false;
+            playerMovement.playersFinishedTheirSequence[1] = false;
+        }
     }
 
     public void restartLevel() {
         Debug.Log("restart lvl");
         inputMgr.reinit();
+        PlayerCollision.setLevelCompletionState(false);
         lvlLoader.reloadLevel();
 
     }
@@ -88,6 +106,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(loadingScreenTime);
         //nextLevelUI.SetActive(false);
         switchPlayerColliders(true);
+        PlayerCollision.setLevelCompletionState(false);
         lvlLoader.loadNextLevel();
 
         //set alpha to 1 for safety

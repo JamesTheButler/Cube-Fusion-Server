@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool[] playerTwoAvailableMovements = new bool[4];//Down - Up - Right - Left
     public GameObject[] boxesNextToPlayerOne = new GameObject[4];//Down - Up - Right - Left
     public GameObject[] boxesNextToPlayerTwo = new GameObject[4];//Down - Up - Right - Left
+    public bool[] playersFinishedTheirSequence = new bool[2];
 
     private void Start()
     {
@@ -35,6 +36,9 @@ public class PlayerMovement : MonoBehaviour {
         for(int i = 0; i < commandSequence.Count; i++) {
             yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
         }
+        playersFinishedTheirSequence[(int) playerId] = true;
+
+        
     }
 
     public IEnumerator playerAction(ePlayers player, eCommands command) {

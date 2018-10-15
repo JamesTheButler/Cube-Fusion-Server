@@ -6,6 +6,7 @@ public class PlayerCollision : MonoBehaviour
 {
     public GameObject gameMgr;
     public bool isPlayerOne;
+    public static bool isLevelCompleted = false;
 
     private void OnTriggerStay(Collider other) {
         PlayerMovement playerMovement = gameMgr.GetComponent<PlayerMovement>();
@@ -16,6 +17,7 @@ public class PlayerCollision : MonoBehaviour
             {
                 if (other.tag == "Player")
                 {
+                    isLevelCompleted = true;
                     gameMgr.GetComponent<GameManager>().transitionToNextLevel();
                 }
             }
@@ -93,5 +95,16 @@ public class PlayerCollision : MonoBehaviour
                 playerMovement.modifyBoxesNextToPlayer(player, (int)eCommands.DOWN - 1, other.gameObject);
             }
         }
+    }
+
+
+    public static bool getLevelCompletionState()
+    {
+        return isLevelCompleted;
+    }
+
+    public static void setLevelCompletionState(bool b)
+    {
+        isLevelCompleted = b;
     }
 }
