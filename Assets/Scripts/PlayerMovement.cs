@@ -41,9 +41,11 @@ public class PlayerMovement : MonoBehaviour {
         //determine player game object
         isPerformingAction = true;
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
-    /*    GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
-        GameObject box = null;
-        Vector3 boxMovement = new Vector3();*/
+      //  GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
+        //GameObject box = null;
+
+
+        Vector3 boxNewPosition = new Vector3();
         command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
         switch (command)
@@ -55,32 +57,37 @@ public class PlayerMovement : MonoBehaviour {
             /*    if (boxList[(int)eCommands.UP - 1] != null)
                 {
                     box = boxList[(int)eCommands.UP - 1];
-                    boxMovement = Vector3.forward;
-                }*/     
+
+                }*/
+                    boxNewPosition = box.transform.position + Vector3.forward;
+                }
                 destinationPos += Vector3.forward;
                 break;
             case eCommands.DOWN:
            /*     if (boxList[(int)eCommands.DOWN - 1] != null)
                 {
                     box = boxList[(int)eCommands.DOWN - 1];
-                    boxMovement = Vector3.back;
                 }*/
+                    boxNewPosition = box.transform.position + Vector3.back;
+                }
                 destinationPos += Vector3.back;
                 break;
             case eCommands.RIGHT:
            /*     if (boxList[(int)eCommands.RIGHT - 1] != null)
                 {
                     box = boxList[(int)eCommands.RIGHT - 1];
-                    boxMovement = Vector3.right;
                 }*/
+                    boxNewPosition = box.transform.position + Vector3.right;
+                }
                 destinationPos += Vector3.right;
                 break;
             case eCommands.LEFT:
                /* if (boxList[(int)eCommands.LEFT - 1] != null)
                 {
                     box = boxList[(int)eCommands.LEFT - 1];
-                    boxMovement = Vector3.left;
                 }*/
+                    boxNewPosition = box.transform.position + Vector3.left;
+                }
                 destinationPos += Vector3.left;
                 break;
             default:
@@ -89,11 +96,13 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         while (currentPlayer.transform.position != destinationPos) {
-          /*  if (box != null)
-            {
-                box.transform.position = Vector3.MoveTowards(box.transform.position, box.transform.position + boxMovement, Time.deltaTime * moveSpeed);
-            }*/
+
             currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+            currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+            if (box != null)
+            {
+                box.transform.position = Vector3.MoveTowards(box.transform.position, boxNewPosition, Time.deltaTime * moveSpeed);
+            }
             yield return null;
         }
      /*   for (int i = 0; i < 4; i++)
@@ -104,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
         isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);
     //    Debug.Log("PlayerMovement :: heheheheheh");
-        
+
     }
 
     public void modifyPlayerAvailableMovements(ePlayers player, int index, bool isAllowed)
@@ -166,6 +175,15 @@ public class PlayerMovement : MonoBehaviour {
         {
             playerOneAvailableMovements[i] = true;
             playerTwoAvailableMovements[i] = true;
+        }
+    }
+
+    public void reInitBoxesNextToPlayer()
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            boxesNextToPlayerOne[i] = null;
+            boxesNextToPlayerTwo[i] = null;
         }
     }
 }

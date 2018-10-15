@@ -21,11 +21,14 @@ public class PlayerCollision : MonoBehaviour
             }
         }
         setAvailableMovements(other);
+        updateBoxesNextToPlayer(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
         gameMgr.GetComponent<PlayerMovement>().reInitAvailableMovements();
+        gameMgr.GetComponent<PlayerMovement>().reInitBoxesNextToPlayer();
+
     }
 
     /**
@@ -37,6 +40,7 @@ public class PlayerCollision : MonoBehaviour
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
         if (other.transform.parent.tag == "wall")
         {
+            //Debug.Log("Found a wall");
             double diffX = other.transform.position.x - this.transform.position.x;
             double checkX = (other.transform.lossyScale.x + this.transform.lossyScale.x) / 2;
             double diffZ = other.transform.position.z - this.transform.position.z;
@@ -67,7 +71,7 @@ public class PlayerCollision : MonoBehaviour
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
         if (other.transform.parent.tag == "box")
         {
-            Debug.Log("Found a box");
+           // Debug.Log("Found a box");
             double diffX = other.transform.position.x - this.transform.position.x;
             double checkX = (other.transform.lossyScale.x + this.transform.lossyScale.x) / 2;
             double diffZ = other.transform.position.z - this.transform.position.z;

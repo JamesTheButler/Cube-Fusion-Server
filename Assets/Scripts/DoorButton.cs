@@ -12,13 +12,13 @@ public class DoorButton : MonoBehaviour {
 	}
 	
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Player") {
+        if (other.gameObject.tag == "Player" || other.transform.parent.tag == "box") {
             hideDoor(true);
         }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.gameObject.tag == "Player") {
+        if (other.gameObject.tag == "Player" || other.transform.parent.tag == "box") {
             hideDoor(false);
         }
     }
