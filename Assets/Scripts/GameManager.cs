@@ -20,7 +20,7 @@ public enum ePlayers {
 public class GameManager : MonoBehaviour {
     public GameObject playerOne;
     public GameObject playerTwo;
-    
+
     public GameObject nextLevelUI;
     public float fadeInTime;
     public float loadingScreenTime;
@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour {
     LevelLoader lvlLoader;
     InputManager inputMgr;
     PlayerMovement playerMovement;
-
-
 
     void Start () {
         //init stuff
@@ -65,33 +63,35 @@ public class GameManager : MonoBehaviour {
         inputMgr.reinit();
         PlayerCollision.setLevelCompletionState(false);
         lvlLoader.reloadLevel();
-
-    }
-    
-    public void transitionToNextLevel() {
-        // disable collisions between players
-        switchPlayerColliders(false);
-        // show level changing screen
-        //nextLevelUI.SetActive(true);
-        // reinit input and movement method
-        inputMgr.reinit();
-        // load next level into scene
-        // disable loading screen after certain time
-        //TODO: enableInput(false);
-        StartCoroutine(levelTransition());
     }
 
+    public void finishLevel(bool isSucceeded) {
+        if (isSucceeded) {                      // level completed
+            Debug.Log("GameManager :: Level succesfully completed");
+            // disable collisions between players
+            switchPlayerColliders(false);
+            // reinit input and movement method
+            inputMgr.reinit();
+            // start transition to show next level
+            StartCoroutine(levelTransition());
+        } else {                            // level failed
+
+        }
+    }
 
     private IEnumerator levelTransition() {
         yield return new WaitForSeconds(waitTimeBeforeFade);
+        // init UI fading
         float alpha = 0f;
         Color textColor = nextLevelUI.GetComponentInChildren<Text>().color;
         if (textColor == null)
             Debug.LogError("color empty");
         Color backGroundColor = nextLevelUI.GetComponentInChildren<Image>().color;
+
         // make ui invisible
         textColor.a = alpha;
         backGroundColor.a = alpha;
+
         //fade in ui
         while (alpha < 1f) {
             alpha += Time.deltaTime / fadeInTime;
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour {
         switchPlayerColliders(true);
         PlayerCollision.setLevelCompletionState(false);
         lvlLoader.loadNextLevel();
+        GetComponent<PlayerMovement>().reInitAvailableMovements();
 
         //set alpha to 1 for safety
         alpha = 1f;
@@ -122,7 +123,6 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
     }
-
 
     public void switchPlayerColliders(bool on) {
         foreach (BoxCollider c in playerOne.gameObject.GetComponents<BoxCollider>())

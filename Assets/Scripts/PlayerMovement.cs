@@ -48,7 +48,6 @@ public class PlayerMovement : MonoBehaviour {
         GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
         GameObject box = null;
 
-
         Vector3 boxNewPosition = new Vector3();
         command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
@@ -108,8 +107,7 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    public void modifyPlayerAvailableMovements(ePlayers player, int index, bool isAllowed)
-    {
+    public void modifyPlayerAvailableMovements(ePlayers player, int index, bool isAllowed) {
         bool[] arrayToModify = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
         arrayToModify[index] = isAllowed;
     }
@@ -119,12 +117,7 @@ public class PlayerMovement : MonoBehaviour {
         GameObject[] arrayToModify = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
         arrayToModify[index] = box;
     }
-
-
-   /*public void resetPlayerPosition(Vector3 newPosP1,Vector3 newPosP2) {
-
-    }*/
-
+ 
     public void stopRunningActions() {
         StopAllCoroutines();
     }
