@@ -65,7 +65,7 @@ public class PlayerCollision : MonoBehaviour
     }
 
 
-   /* private void updateBoxesNextToPlayer(Collider other)
+    private void updateBoxesNextToPlayer(Collider other)
     {
         PlayerMovement playerMovement = gameMgr.GetComponent<PlayerMovement>();
         ePlayers player = this.name == "Player 1" ? ePlayers.ONE : ePlayers.TWO;
@@ -93,5 +93,5 @@ public class PlayerCollision : MonoBehaviour
                 playerMovement.modifyBoxesNextToPlayer(player, (int)eCommands.DOWN - 1, other.gameObject);
             }
         }
-    }*/
+    }
 }
