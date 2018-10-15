@@ -30,8 +30,6 @@ public class GameManager : MonoBehaviour {
     LevelLoader lvlLoader;
     InputManager inputMgr;
 
-
-
     void Start () {
         //init stuff
         lvlLoader = FindObjectOfType<LevelLoader>();
@@ -39,41 +37,41 @@ public class GameManager : MonoBehaviour {
 
         inputMgr = FindObjectOfType<InputManager>();
         inputMgr.reinit();
-
-       // nextLevelUI.SetActive(false);
     }
 
     public void restartLevel() {
         Debug.Log("restart lvl");
         inputMgr.reinit();
         lvlLoader.reloadLevel();
-
-    }
-    
-    public void transitionToNextLevel() {
-        // disable collisions between players
-        switchPlayerColliders(false);
-        // show level changing screen
-        //nextLevelUI.SetActive(true);
-        // reinit input and movement method
-        inputMgr.reinit();
-        // load next level into scene
-        // disable loading screen after certain time
-        //TODO: enableInput(false);
-        StartCoroutine(levelTransition());
     }
 
+    public void finishLevel(bool isSucceeded) {
+        if (isSucceeded) {                      // level completed
+            Debug.Log("GameManager :: Level succesfully completed");
+            // disable collisions between players
+            switchPlayerColliders(false);
+            // reinit input and movement method
+            inputMgr.reinit();
+            // start transition to show next level
+            StartCoroutine(levelTransition());
+        } else {                            // level failed
+
+        }
+    }
 
     private IEnumerator levelTransition() {
         yield return new WaitForSeconds(waitTimeBeforeFade);
+        // init UI fading
         float alpha = 0f;
         Color textColor = nextLevelUI.GetComponentInChildren<Text>().color;
         if (textColor == null)
             Debug.LogError("color empty");
         Color backGroundColor = nextLevelUI.GetComponentInChildren<Image>().color;
+
         // make ui invisible
         textColor.a = alpha;
         backGroundColor.a = alpha;
+
         //fade in ui
         while (alpha < 1f) {
             alpha += Time.deltaTime / fadeInTime;
@@ -89,6 +87,7 @@ public class GameManager : MonoBehaviour {
         //nextLevelUI.SetActive(false);
         switchPlayerColliders(true);
         lvlLoader.loadNextLevel();
+        GetComponent<PlayerMovement>().reInitAvailableMovements();
 
         //set alpha to 1 for safety
         alpha = 1f;
@@ -103,7 +102,6 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
     }
-
 
     public void switchPlayerColliders(bool on) {
         foreach (BoxCollider c in playerOne.gameObject.GetComponents<BoxCollider>())

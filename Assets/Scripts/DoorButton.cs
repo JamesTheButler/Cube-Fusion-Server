@@ -6,7 +6,7 @@ public class DoorButton : MonoBehaviour {
     public GameObject door;
     private bool state;  //true if button is activated; false if else
 
-	// Use this for initialization
+	// TODO: do we need state?
 	void Start () {
         state = false;
 	}
@@ -24,8 +24,7 @@ public class DoorButton : MonoBehaviour {
     }
 
     private void hideDoor(bool isDoorHidden) {
-        float yOffset = isDoorHidden ? -5f : 5f;
-        door.transform.position += new Vector3(0,yOffset,0);
-        //door.SetActive(!isDoorHidden);
+        float yOffset = isDoorHidden ? -2f : 0f;
+        door.transform.localPosition = new Vector3(door.transform.position.x, yOffset, door.transform.position.z);
     }
 }
