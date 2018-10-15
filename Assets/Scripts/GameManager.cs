@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum eCommands {
     NONE,
@@ -21,10 +22,15 @@ public class GameManager : MonoBehaviour {
     public GameObject playerTwo;
     
     public GameObject nextLevelUI;
-    public float nextLevelLoadingScreenTime;
+    public float fadeInTime;
+    public float loadingScreenTime;
+    public float fadeOutTime;
+    public float waitTimeBeforeFade;
 
     LevelLoader lvlLoader;
     InputManager inputMgr;
+
+
 
     void Start () {
         //init stuff
@@ -34,7 +40,7 @@ public class GameManager : MonoBehaviour {
         inputMgr = FindObjectOfType<InputManager>();
         inputMgr.reinit();
 
-        nextLevelUI.SetActive(false);
+       // nextLevelUI.SetActive(false);
     }
 
     public void restartLevel() {
@@ -48,21 +54,56 @@ public class GameManager : MonoBehaviour {
         // disable collisions between players
         switchPlayerColliders(false);
         // show level changing screen
-        nextLevelUI.SetActive(true);
+        //nextLevelUI.SetActive(true);
         // reinit input and movement method
         inputMgr.reinit();
         // load next level into scene
-        lvlLoader.loadNextLevel();
         // disable loading screen after certain time
         //TODO: enableInput(false);
-        Invoke("hideNextLevelLoadingScreen", nextLevelLoadingScreenTime);
+        StartCoroutine(levelTransition());
     }
 
-    void hideNextLevelLoadingScreen() {
-        nextLevelUI.SetActive(false);
+
+    private IEnumerator levelTransition() {
+        yield return new WaitForSeconds(waitTimeBeforeFade);
+        float alpha = 0f;
+        Color textColor = nextLevelUI.GetComponentInChildren<Text>().color;
+        if (textColor == null)
+            Debug.LogError("color empty");
+        Color backGroundColor = nextLevelUI.GetComponentInChildren<Image>().color;
+        // make ui invisible
+        textColor.a = alpha;
+        backGroundColor.a = alpha;
+        //fade in ui
+        while (alpha < 1f) {
+            alpha += Time.deltaTime / fadeInTime;
+            textColor.a = alpha;
+            backGroundColor.a = alpha;
+
+            nextLevelUI.GetComponentInChildren<Text>().color = textColor;
+            nextLevelUI.GetComponentInChildren<Image>().color = backGroundColor;
+            yield return null;
+        }
+        //show ui for certain time
+        yield return new WaitForSeconds(loadingScreenTime);
+        //nextLevelUI.SetActive(false);
         switchPlayerColliders(true);
-        //TODO: enableInput(true);
+        lvlLoader.loadNextLevel();
+
+        //set alpha to 1 for safety
+        alpha = 1f;
+        //fade out
+        while (alpha > 0f) {
+            alpha -= Time.deltaTime / fadeInTime;
+            textColor.a = alpha;
+            backGroundColor.a = alpha;
+
+            nextLevelUI.GetComponentInChildren<Text>().color = textColor;
+            nextLevelUI.GetComponentInChildren<Image>().color = backGroundColor;
+            yield return null;
+        }
     }
+
 
     public void switchPlayerColliders(bool on) {
         foreach (BoxCollider c in playerOne.gameObject.GetComponents<BoxCollider>())
