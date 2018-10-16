@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
     public float fadeOutTime;
     public float waitTimeBeforeFade;
     public bool isLevelCompleted = false;
+    public ServerManager sMng;
     LevelLoader lvlLoader;
     InputManager inputMgr;
     PlayerMovement playerMovement;
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour {
             nextLevelUI.GetComponent<CanvasGroup>().alpha -= Time.deltaTime / fadeInTime;
             yield return null;
         }
+        sMng.PlayersReady(!doRestartLevel);
     }
 
     public void switchPlayerColliders(bool on) {

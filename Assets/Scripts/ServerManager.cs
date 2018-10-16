@@ -204,9 +204,14 @@ public class ServerManager : MonoBehaviour
         gameManager.GetComponent<PlayerMovement>().moveTwoPlayers(playerOneCommands, playerTwoCommands);
         playerOneReady = false;
         playerTwoReady = false;
+    }
 
+    public void PlayersReady(bool delete)
+    {
         DataMessage messageContainer = new DataMessage();
-        messageContainer.message = "3";
+        if (delete)
+            messageContainer.message = "4";
+        else messageContainer.message = "3";
 
         // Broadcast a message a to everyone connected
         NetworkServer.SendToAll(SETUP_ID, messageContainer);
