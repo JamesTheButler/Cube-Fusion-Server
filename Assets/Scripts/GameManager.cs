@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
         //Checks if the players finished their movements
         if (playerMovement.playersFinishedTheirSequence[0] && playerMovement.playersFinishedTheirSequence[1] && !isLevelCompleted)
         {
-            FindObjectOfType<GameManager>().finishLevel(false);
+            finishLevel(false);
             isLevelCompleted = false;
             playerMovement.reInitPlayerFinishedSequence();
         }

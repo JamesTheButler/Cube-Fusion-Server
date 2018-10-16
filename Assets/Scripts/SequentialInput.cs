@@ -61,7 +61,6 @@ public class SequentialInput : MonoBehaviour {
                 registerInput(ePlayers.TWO, eCommands.DOWN);
             }
             yield return null;
-            
         }
 
         Debug.Log("SequentialInput :: Starting movements");
