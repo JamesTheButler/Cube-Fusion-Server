@@ -18,6 +18,7 @@ public class ServerManager : MonoBehaviour
     //Message types
     private const short MESSAGE_ID = 1000;
     private const short QUEUE_ID = 1001;
+    private const short SETUP_ID = 1002;
 
     int player1Id=0;
     int player2Id=0;
@@ -93,29 +94,32 @@ public class ServerManager : MonoBehaviour
             player1Id = netMessage.conn.connectionId;
             adminUiMgr.setPlayerIsConnected(ePlayers.ONE, true);
             Debug.Log("Player 1 connected");
-            messageContainer.message = "Thanks for joining! You are Player 1";
+            messageContainer.message = "1";
         }
         else if (player2Id == 0)
         {
             player2Id = netMessage.conn.connectionId;
             adminUiMgr.setPlayerIsConnected(ePlayers.TWO, true);
             Debug.Log("Player 2 connected");
-            messageContainer.message = "Thanks for joining! You are Player 2";
+            messageContainer.message = "2";
         }
         else
         {
-            messageContainer.message = "No more players accepted";
+            messageContainer.message = "0";
         }
 
         // This sends a message to a specific client, using the connectionId
-        NetworkServer.SendToClient(netMessage.conn.connectionId, MESSAGE_ID, messageContainer);
+        NetworkServer.SendToClient(netMessage.conn.connectionId, SETUP_ID, messageContainer);
 
         // Send a message to all the clients connected
-        messageContainer = new DataMessage();
-        messageContainer.message = "A new player has connected to the server.";
+        if (player1Id != 0 && player2Id != 0)
+        {
+            messageContainer = new DataMessage();
+            messageContainer.message = "3";
 
-        // Broadcast a message a to everyone connected
-        NetworkServer.SendToAll(MESSAGE_ID, messageContainer);
+            // Broadcast a message a to everyone connected
+            NetworkServer.SendToAll(SETUP_ID, messageContainer);
+        }
     }
 
     void OnQueueReceived(NetworkMessage netMessage)
@@ -200,5 +204,11 @@ public class ServerManager : MonoBehaviour
         gameManager.GetComponent<PlayerMovement>().moveTwoPlayers(playerOneCommands, playerTwoCommands);
         playerOneReady = false;
         playerTwoReady = false;
+
+        DataMessage messageContainer = new DataMessage();
+        messageContainer.message = "3";
+
+        // Broadcast a message a to everyone connected
+        NetworkServer.SendToAll(SETUP_ID, messageContainer);
     }
 }
