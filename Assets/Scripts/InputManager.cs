@@ -35,8 +35,6 @@ public class InputManager : MonoBehaviour {
     // restart the sequential input functionality
     public IEnumerator reinitSequentialInput() {
         if (useSequentialMovement) {
-
-            Debug.Log("InputManager :: reinit sequential movement");
             SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
             //StopCoroutine(sequentialMovement.readInput());
             sequentialInput.stopWaitingForInputs();
@@ -48,6 +46,8 @@ public class InputManager : MonoBehaviour {
     public void reinitNetworkInput() {
         if (useNetworkMovement) {
             Debug.LogError("not implemented yet");
+            playerMovement.stopRunningActions();
+            
         }
     }
 }
