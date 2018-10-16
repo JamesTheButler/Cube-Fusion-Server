@@ -38,10 +38,13 @@ public class PlayerMovement : MonoBehaviour {
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
         GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
         GameObject box = null;
-
+        Transform model=currentPlayer.transform.Find("model");
         Vector3 boxNewPosition = new Vector3();
         command = checkCommandValidity(player, command);
         Vector3 destinationPos = currentPlayer.transform.position;
+		Vector3 pointRotate=new Vector3(0,0,0);
+
+        Vector3 axisRotation=new Vector3();
         switch (command)
         {
             case eCommands.NONE:
@@ -53,7 +56,9 @@ public class PlayerMovement : MonoBehaviour {
                     box = boxList[(int)eCommands.UP - 1];
                     boxNewPosition = box.transform.position + Vector3.forward;
                 }
+                axisRotation=Vector3.right;
                 destinationPos += Vector3.forward;
+                pointRotate=new Vector3(0f,-0.5f,0.5f);
                 break;
             case eCommands.DOWN:
                 if (boxList[(int)eCommands.DOWN - 1] != null)
@@ -61,7 +66,9 @@ public class PlayerMovement : MonoBehaviour {
                     box = boxList[(int)eCommands.DOWN - 1];
                     boxNewPosition = box.transform.position + Vector3.back;
                 }
+                axisRotation=Vector3.left;
                 destinationPos += Vector3.back;
+                pointRotate=new Vector3(0f,-0.5f,-0.5f);
                 break;
             case eCommands.RIGHT:
                 if (boxList[(int)eCommands.RIGHT - 1] != null)
@@ -69,7 +76,9 @@ public class PlayerMovement : MonoBehaviour {
                     box = boxList[(int)eCommands.RIGHT - 1];
                     boxNewPosition = box.transform.position + Vector3.right;
                 }
+                axisRotation=Vector3.back;
                 destinationPos += Vector3.right;
+                pointRotate=new Vector3(0.5f,-0.5f,0f);
                 break;
             case eCommands.LEFT:
                 if (boxList[(int)eCommands.LEFT - 1] != null)
@@ -78,21 +87,43 @@ public class PlayerMovement : MonoBehaviour {
                     boxNewPosition = box.transform.position + Vector3.left;
                 }
                 destinationPos += Vector3.left;
+                axisRotation=Vector3.forward;
+                pointRotate=new Vector3(-0.5f,-0.5f,0f);
                 break;
             default:
                 Debug.LogError("PlayerMovement :: unknown Command");
                 break;
         }
 
-        while (currentPlayer.transform.position != destinationPos) {
-
-            currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+        float angle=0;
+        Vector3 savePos=currentPlayer.transform.position;
+        //while (currentPlayer.transform.position != destinationPos) {
+        while (angle<90) {
+            
+            //currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
+            
+            //model.RotateAround( savePos+new Vector3(0,-0.5f,+0.5f), Vector3.right, 88*moveSpeed*Time.deltaTime);
+            //model.position = Vector3.MoveTowards(model.position, Vector3.forward, Time.deltaTime * moveSpeed);
+            float deltaAngle = 90*Time.deltaTime*moveSpeed;
+            model.RotateAround( currentPlayer.transform.position+pointRotate, axisRotation, deltaAngle);
+            angle+=deltaAngle;
+            //model.position = Vector3.MoveTowards(model.position, new Vector3(0,0,-1), Time.deltaTime * moveSpeed);
             if (box != null)
             {
                 box.transform.position = Vector3.MoveTowards(box.transform.position, boxNewPosition, Time.deltaTime * moveSpeed);
+
+
             }
+           
             yield return null;
         }
+        currentPlayer.transform.position=destinationPos;
+
+
+        
+        model.rotation=new Quaternion(0,0,0,0);
+        model.position= currentPlayer.transform.position;
+
         isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);
 
