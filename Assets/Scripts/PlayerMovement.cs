@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public IEnumerator playerAction(ePlayers player, eCommands command) {
+        Debug.Log(command);
         //determine player game object
         isPerformingAction = true;
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
@@ -118,8 +119,6 @@ public class PlayerMovement : MonoBehaviour {
             yield return null;
         }
         currentPlayer.transform.position=destinationPos;
-
-
         
         model.rotation=new Quaternion(0,0,0,0);
         model.position= currentPlayer.transform.position;
@@ -146,14 +145,15 @@ public class PlayerMovement : MonoBehaviour {
 
     private eCommands checkCommandValidity(ePlayers player, eCommands command)
     {
+        if (command == eCommands.NONE) {
+            return command;
+        }
+
         bool[] boolList = player == ePlayers.ONE ? playerOneAvailableMovements : playerTwoAvailableMovements;
         int index = (int)command - 1;
         GameObject[] boxList = player == ePlayers.ONE ? boxesNextToPlayerOne : boxesNextToPlayerTwo;
         GameObject box = boxList[index];
-        if (command == eCommands.NONE)
-        {
-            return command;
-        }
+       
         if (!boolList[index])
         {
             command = eCommands.NONE;
