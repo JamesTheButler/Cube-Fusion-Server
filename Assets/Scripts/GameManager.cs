@@ -101,8 +101,6 @@ public class GameManager : MonoBehaviour {
         // init level
         switchPlayerColliders(true);
         isLevelCompleted = false;
-        playerMovement.reInitPlayerFinishedSequence();
-        playerMovement.reInitAvailableMovements();
 
         //fade out
         nextLevelUI.GetComponent<CanvasGroup>().alpha = 1f;
