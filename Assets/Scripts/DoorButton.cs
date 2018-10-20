@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class DoorButton : MonoBehaviour {
     public GameObject door;
-    private bool state;  //true if button is activated; false if else
 
-	// TODO: do we need state?
-	void Start () {
-        state = false;
-	}
-	
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Player" || other.transform.parent.tag == "box") {
             hideDoor(true);
