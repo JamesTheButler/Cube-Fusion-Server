@@ -29,12 +29,12 @@ public class InputManager : MonoBehaviour {
     //TODO: reinit network input correctly
     public void reinit() {
         StartCoroutine(reinitSequentialInput());
-        reinitNetworkInput();
+        //reinitNetworkInput();
     }
     
     // restart the sequential input functionality
     public IEnumerator reinitSequentialInput() {
-        if (useSequentialMovement) {
+        if (useSequentialMovement || useNetworkMovement) {
             SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
             //StopCoroutine(sequentialMovement.readInput());
             sequentialInput.stopWaitingForInputs();
@@ -43,11 +43,11 @@ public class InputManager : MonoBehaviour {
         }
     }
 
-    public void reinitNetworkInput() {
+    /*public void reinitNetworkInput() {
         if (useNetworkMovement) {
             Debug.LogError("not implemented yet");
             playerMovement.stopRunningActions();
             
         }
-    }
+    }*/
 }
