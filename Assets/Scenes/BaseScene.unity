@@ -1475,7 +1475,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   victoryParticlesPrefab: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022,
     type: 2}
+  victoryParticlesPrefab2: {fileID: 100004, guid: 3af6f68141914ca43ba39b2403757bd0,
+    type: 2}
   stepParticlesPrefab: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 2}
+  losingParticlesPrefab: {fileID: 100006, guid: bcaff8fc36e95584bb27cc3cf7c6cb14,
+    type: 2}
 --- !u!1 &1123664391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2529,9 +2533,9 @@ MonoBehaviour:
   - {fileID: 1236033543254418, guid: 90eb8d1b86c7c3740b2a13f96037ae12, type: 2}
   - {fileID: 1042354394053586, guid: fe004bbb72d380e499a46ac5704dc803, type: 2}
   - {fileID: 1022572341633110, guid: 67ebb7b853b1473458ff7af0b9676b43, type: 2}
-  - {fileID: 1021354002979414, guid: 0fee5e2dc1f98114c9c69bd9e076c53f, type: 2}
-  - {fileID: 1419335645857462, guid: 65ed4364e82974e4891937c9a7188b6b, type: 2}
   - {fileID: 1440957472486500, guid: 5632d04fca626cd46ad81eda1ad9b78a, type: 2}
+  - {fileID: 1419335645857462, guid: 65ed4364e82974e4891937c9a7188b6b, type: 2}
+  - {fileID: 1021354002979414, guid: 0fee5e2dc1f98114c9c69bd9e076c53f, type: 2}
   - {fileID: 1102758081725960, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
   - {fileID: 1601681709858434, guid: 61fdca52702adaf4f9435cb1002e0429, type: 2}
   levelIdText: {fileID: 131304977}
