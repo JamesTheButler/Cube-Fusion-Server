@@ -10,6 +10,8 @@ public class LevelLoader : MonoBehaviour {
 
     public GameObject[] levels;
 
+    public GameObject endGameUI;
+
     public Text levelIdText;
 
     private const string CURRENT_LEVEL_TAG = "currentLevel";
@@ -71,6 +73,23 @@ public class LevelLoader : MonoBehaviour {
     }
 
     public void loadNextLevel() {
-        loadLevel((currentLevelID+1) % levels.Length);
+        if(currentLevelID != levels.Length - 1)
+        {
+            loadLevel((currentLevelID + 1) % levels.Length);
+        }
+        else
+        {
+            loadEndGameUI();
+        }
+    }
+
+    public bool isCurrentLvlTheLastOne()
+    {
+        return currentLevelID == levels.Length - 1;
+    }
+
+    private void loadEndGameUI()
+    {
+
     }
 }

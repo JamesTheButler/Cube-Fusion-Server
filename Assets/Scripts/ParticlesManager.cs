@@ -5,32 +5,9 @@ using UnityEngine;
 public class ParticlesManager : MonoBehaviour
 {
     public GameObject victoryParticlesPrefab;
+    public GameObject victoryParticlesPrefab2;
     public GameObject stepParticlesPrefab;
-
-
-    //private ParticleSystem victoryPs;
-   // private ParticleSystem stepPs;
-	// Use this for initialization
-	void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        /*if (victoryPs == null)
-        {
-            
-            victoryPs.gameObject.SetActive(false);
-        }
-        if(stepPs == null)
-        {
-            stepPs = Instantiate(stepParticlesPrefab).GetComponent<ParticleSystem>();
-            stepPs.gameObject.SetActive(false);
-        }*/
-    }
-
+    public GameObject losingParticlesPrefab;
 
     private void playParticles(GameObject particlesPrefab, Vector3 pos)
     {
@@ -44,11 +21,17 @@ public class ParticlesManager : MonoBehaviour
     public void playVictoryParticles(Vector3 positionToPlay)
     {
         playParticles(victoryParticlesPrefab, positionToPlay);
+        playParticles(victoryParticlesPrefab2, positionToPlay + new Vector3(0f,1f));
     }
 
     public void playStepParticles(Vector3 positionToPlay)
     {
         playParticles(stepParticlesPrefab, positionToPlay);
+    }
+
+    public void playLosingParticles(Vector3 positionToPlay)
+    {
+        playParticles(losingParticlesPrefab, positionToPlay);
     }
 
     
