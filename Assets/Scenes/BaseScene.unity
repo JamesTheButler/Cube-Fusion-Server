@@ -265,7 +265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &93877966
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2184,7 +2184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1415835787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2599,8 +2599,6 @@ MonoBehaviour:
   - {fileID: 1440957472486500, guid: 5632d04fca626cd46ad81eda1ad9b78a, type: 2}
   - {fileID: 1419335645857462, guid: 65ed4364e82974e4891937c9a7188b6b, type: 2}
   - {fileID: 1021354002979414, guid: 0fee5e2dc1f98114c9c69bd9e076c53f, type: 2}
-  - {fileID: 1102758081725960, guid: 388547e81c42dd44f8e1fb6ca3c9020f, type: 2}
-  - {fileID: 1601681709858434, guid: 61fdca52702adaf4f9435cb1002e0429, type: 2}
   endGameUI: {fileID: 0}
   levelIdText: {fileID: 131304977}
 --- !u!4 &1730444158
