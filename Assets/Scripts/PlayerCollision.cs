@@ -17,6 +17,7 @@ public class PlayerCollision : MonoBehaviour
                 if (other.transform.parent.tag == "Player")
                 {
                     gameMgr.GetComponent<GameManager>().finishLevel(true);
+                    FindObjectOfType<ParticlesManager>().playVictoryParticles(transform.position);
                 }
             }
         }

@@ -194,3 +194,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMgr: {fileID: 0}
   isPlayerOne: 1
+  victoryParticles: {fileID: 100000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 2}

@@ -119,6 +119,7 @@ public class PlayerMovement : MonoBehaviour {
             yield return null;
         }
         currentPlayer.transform.position=destinationPos;
+        FindObjectOfType<ParticlesManager>().playStepParticles(destinationPos);
         
         model.rotation=new Quaternion(0,0,0,0);
         model.position= currentPlayer.transform.position;
