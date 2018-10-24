@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
         switchPlayerColliders(false);
         inputMgr.reinit();
         LevelLoader lvlLoader = FindObjectOfType<LevelLoader>();
-        if (hasSucceeded && lvlLoader.isCurrentLvlTheLastOne()) {            // level completed
+        if (hasSucceeded && !lvlLoader.isCurrentLvlTheLastOne()) {            // level completed
             isLevelCompleted = true;
             StartCoroutine(levelTransition(false));
         } else if(!hasSucceeded) {                       // level failed
