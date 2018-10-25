@@ -73,23 +73,11 @@ public class LevelLoader : MonoBehaviour {
     }
 
     public void loadNextLevel() {
-        if(currentLevelID != levels.Length - 1)
-        {
-            loadLevel((currentLevelID + 1) % levels.Length);
-        }
-        else
-        {
-            loadEndGameUI();
-        }
+        loadLevel((currentLevelID + 1) % levels.Length);
     }
 
     public bool isCurrentLvlTheLastOne()
     {
         return currentLevelID == levels.Length - 1;
-    }
-
-    private void loadEndGameUI()
-    {
-
     }
 }
