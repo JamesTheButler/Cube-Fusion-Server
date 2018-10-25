@@ -83,12 +83,15 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(waitTimeBeforeFade);
 
         Debug.Log(doRestartLevel);
-        // set text to show
-        if (doRestartLevel)
-            nextLevelUI.GetComponentInChildren<Text>().text = "Ouch! That didn't work. You'll have to try again ...";
-        else
-            nextLevelUI.GetComponentInChildren<Text>().text = "Good job, you did it! Loading next level ...";
 
+        // set text to show
+        /*  if (doRestartLevel)
+              nextLevelUI.GetComponentInChildren<Text>().text = "Ouch! That didn't work. You'll have to try again ...";
+          else
+              nextLevelUI.GetComponentInChildren<Text>().text = "Good job, you did it! Loading next level ...";
+  */
+
+        nextLevelUI.GetComponentInChildren<Image>().color = doRestartLevel ? Color.black : Color.white;
         // init UI fading
         nextLevelUI.GetComponent<CanvasGroup>().alpha = 0f;
 
