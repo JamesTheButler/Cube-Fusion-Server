@@ -56,18 +56,17 @@ public class GameManager : MonoBehaviour {
             FindObjectOfType<ParticlesManager>().playLosingParticles(playerOne.transform.position + new Vector3(0f,1f));
             FindObjectOfType<ParticlesManager>().playLosingParticles(playerTwo.transform.position + new Vector3(0f,1f));
             finishLevel(false);
-            isLevelCompleted = false;
             playerMovement.reInitPlayerFinishedSequence();
         }
     }
 
     public void finishLevel(bool hasSucceeded) {
+        isLevelCompleted = hasSucceeded;
         Debug.Log("GameManager :: finished level. success status: " + hasSucceeded);
         switchPlayerColliders(false);
         inputMgr.reinit();
         LevelLoader lvlLoader = FindObjectOfType<LevelLoader>();
         if (hasSucceeded && !lvlLoader.isCurrentLvlTheLastOne()) {            // level completed
-            isLevelCompleted = true;
             StartCoroutine(levelTransition(false));
         } else if(!hasSucceeded) {                       // level failed
             StartCoroutine(levelTransition(true));

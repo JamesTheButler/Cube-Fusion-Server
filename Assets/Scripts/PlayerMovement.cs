@@ -27,14 +27,17 @@ public class PlayerMovement : MonoBehaviour {
 
     public IEnumerator sequentialAction(ePlayers playerId, List<eCommands> commandSequence){
         for(int i = 0; i < commandSequence.Count; i++) {
-            Debug.Log(FindObjectOfType<GameManager>().isLevelCompleted);
-            yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
+            if(playerId == ePlayers.ONE)
+                Debug.Log(FindObjectOfType<GameManager>().isLevelCompleted+", "+commandSequence[i]);
+            if (!FindObjectOfType<GameManager>().isLevelCompleted)
+                yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
+            else
+                break;
         }
         playersFinishedTheirSequence[(int) playerId] = true;
     }
 
     public IEnumerator playerAction(ePlayers player, eCommands command) {
-        Debug.Log(command);
         //determine player game object
         isPerformingAction = true;
         GameObject currentPlayer = player == ePlayers.ONE ? FindObjectOfType<GameManager>().getPlayerOne(): FindObjectOfType<GameManager>().getPlayerTwo();
