@@ -22,10 +22,12 @@ public class GameManager : MonoBehaviour {
     public GameObject playerTwo;
 
     public GameObject nextLevelUI;
+    public GameObject endOfGameUI;
     public float fadeInTime;
     public float loadingScreenTime;
     public float fadeOutTime;
     public float waitTimeBeforeFade;
+    public float endGameTime;
     public bool isLevelCompleted = false;
     public ServerManager sMng;
     LevelLoader lvlLoader;
@@ -44,9 +46,9 @@ public class GameManager : MonoBehaviour {
         playerMovement.reInitAvailableMovements();
         playerMovement.reInitBoxesNextToPlayer();
 
-       // nextLevelUI.SetActive(false);
+        nextLevelUI.SetActive(false);
+        endOfGameUI.SetActive(false);
     }
-
 
     void Update()
     {
@@ -66,31 +68,20 @@ public class GameManager : MonoBehaviour {
         switchPlayerColliders(false);
         inputMgr.reinit();
         LevelLoader lvlLoader = FindObjectOfType<LevelLoader>();
-        if (hasSucceeded && !lvlLoader.isCurrentLvlTheLastOne()) {            // level completed
+        if(hasSucceeded && lvlLoader.isCurrentLvlTheLastOne())      //end of game
+            StartCoroutine(showEndGameUI());
+        else if (hasSucceeded && !lvlLoader.isCurrentLvlTheLastOne()) {    // level completed
             StartCoroutine(levelTransition(false));
         } else if(!hasSucceeded) {                       // level failed
             StartCoroutine(levelTransition(true));
         }
-        /*else
-        {
-            //Start End Game
-            lvlLoader.startEndGameUI();
-        }*/
     }
 
     private IEnumerator levelTransition(bool doRestartLevel) {
-        //wait before fading, so players see the result
-        yield return new WaitForSeconds(waitTimeBeforeFade);
-
-        Debug.Log(doRestartLevel);
-
-        // set text to show
-        /*  if (doRestartLevel)
-              nextLevelUI.GetComponentInChildren<Text>().text = "Ouch! That didn't work. You'll have to try again ...";
-          else
-              nextLevelUI.GetComponentInChildren<Text>().text = "Good job, you did it! Loading next level ...";
-  */
-
+        Debug.Log("levelTransitionI()");
+        if (!(!doRestartLevel && lvlLoader.isCurrentLvlTheLastOne()))
+            yield return new WaitForSeconds(waitTimeBeforeFade);
+        nextLevelUI.SetActive(true);
         nextLevelUI.GetComponentInChildren<Image>().color = doRestartLevel ? Color.black : Color.white;
         // init UI fading
         nextLevelUI.GetComponent<CanvasGroup>().alpha = 0f;
@@ -119,6 +110,25 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
         sMng.PlayersReady(!doRestartLevel);
+    }
+
+    public IEnumerator showEndGameUI() {
+        endOfGameUI.SetActive(true);
+        endOfGameUI.GetComponent<CanvasGroup>().alpha = 0f;
+        while (endOfGameUI.GetComponent<CanvasGroup>().alpha < 1f) {
+            endOfGameUI.GetComponent<CanvasGroup>().alpha += Time.deltaTime / fadeInTime;
+            yield return null;
+        }
+        Debug.Log("Game has now finished");
+        yield return new WaitForSeconds(endGameTime);
+        endOfGameUI.GetComponent<CanvasGroup>().alpha = 1f;
+        while (endOfGameUI.GetComponent<CanvasGroup>().alpha > 0f) {
+            endOfGameUI.GetComponent<CanvasGroup>().alpha -= Time.deltaTime / fadeOutTime;
+            yield return null;
+        }
+        endOfGameUI.SetActive(false);
+        Debug.Log("game manager : start transition");
+        yield return StartCoroutine(levelTransition(false));
     }
 
     public void switchPlayerColliders(bool on) {
