@@ -79,6 +79,5 @@ public class SequentialInput : MonoBehaviour {
     private void registerInput(ePlayers player, eCommands command) {
         List<eCommands> playerList = player == ePlayers.ONE ? playerOneMovement : playerTwoMovement;
         playerList.Add(command);
-        //Debug.Log("SequentialInput :: Waiting for a new Input");
     }
 }

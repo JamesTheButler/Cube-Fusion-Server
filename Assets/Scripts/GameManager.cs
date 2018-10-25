@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void finishLevel(bool hasSucceeded) {          
+    public void finishLevel(bool hasSucceeded) {
+        Debug.Log("GameManager :: finished level. success status: " + hasSucceeded);
         switchPlayerColliders(false);
         inputMgr.reinit();
         LevelLoader lvlLoader = FindObjectOfType<LevelLoader>();

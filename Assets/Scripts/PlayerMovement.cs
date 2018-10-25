@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public IEnumerator sequentialAction(ePlayers playerId, List<eCommands> commandSequence){
         for(int i = 0; i < commandSequence.Count; i++) {
+            Debug.Log(FindObjectOfType<GameManager>().isLevelCompleted);
             yield return StartCoroutine(playerAction(playerId, commandSequence[i]));
         }
         playersFinishedTheirSequence[(int) playerId] = true;
@@ -95,38 +96,27 @@ public class PlayerMovement : MonoBehaviour {
                 Debug.LogError("PlayerMovement :: unknown Command");
                 break;
         }
+        if (command != eCommands.NONE) {
+            float angle = 0;
+            Vector3 savePos = currentPlayer.transform.position;
+            while (angle < 90) {
+                float deltaAngle = 90 * Time.deltaTime * moveSpeed;
+                model.RotateAround(currentPlayer.transform.position + pointRotate, axisRotation, deltaAngle);
+                angle += deltaAngle;
+                if (box != null) {
+                    box.transform.position = Vector3.MoveTowards(box.transform.position, boxNewPosition, Time.deltaTime * moveSpeed);
+                }
 
-        float angle=0;
-        Vector3 savePos=currentPlayer.transform.position;
-        //while (currentPlayer.transform.position != destinationPos) {
-        while (angle<90) {
-            
-            //currentPlayer.transform.position = Vector3.MoveTowards(currentPlayer.transform.position, destinationPos, Time.deltaTime * moveSpeed);
-            
-            //model.RotateAround( savePos+new Vector3(0,-0.5f,+0.5f), Vector3.right, 88*moveSpeed*Time.deltaTime);
-            //model.position = Vector3.MoveTowards(model.position, Vector3.forward, Time.deltaTime * moveSpeed);
-            float deltaAngle = 90*Time.deltaTime*moveSpeed;
-            model.RotateAround( currentPlayer.transform.position+pointRotate, axisRotation, deltaAngle);
-            angle+=deltaAngle;
-            //model.position = Vector3.MoveTowards(model.position, new Vector3(0,0,-1), Time.deltaTime * moveSpeed);
-            if (box != null)
-            {
-                box.transform.position = Vector3.MoveTowards(box.transform.position, boxNewPosition, Time.deltaTime * moveSpeed);
-
-
+                yield return null;
             }
-           
-            yield return null;
-        }
-        currentPlayer.transform.position=destinationPos;
-        FindObjectOfType<ParticlesManager>().playStepParticles(destinationPos);
-        
-        model.rotation=new Quaternion(0,0,0,0);
-        model.position= currentPlayer.transform.position;
+            currentPlayer.transform.position = destinationPos;
+            FindObjectOfType<ParticlesManager>().playStepParticles(destinationPos);
 
+            model.rotation = new Quaternion(0, 0, 0, 0);
+            model.position = currentPlayer.transform.position;
+        }
         isPerformingAction = false;
         yield return new WaitForSeconds(movementDelay);
-
     }
 
     public void modifyPlayerAvailableMovements(ePlayers player, int index, bool isAllowed) {

@@ -29,25 +29,15 @@ public class InputManager : MonoBehaviour {
     //TODO: reinit network input correctly
     public void reinit() {
         StartCoroutine(reinitSequentialInput());
-        //reinitNetworkInput();
     }
     
     // restart the sequential input functionality
     public IEnumerator reinitSequentialInput() {
         if (useSequentialMovement || useNetworkMovement) {
             SequentialInput sequentialInput = FindObjectOfType<SequentialInput>();
-            //StopCoroutine(sequentialMovement.readInput());
             sequentialInput.stopWaitingForInputs();
             yield return null;
             StartCoroutine(sequentialInput.readInput());
         }
     }
-
-    /*public void reinitNetworkInput() {
-        if (useNetworkMovement) {
-            Debug.LogError("not implemented yet");
-            playerMovement.stopRunningActions();
-            
-        }
-    }*/
 }
