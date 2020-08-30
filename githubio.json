@@ -1,5 +1,8 @@
-{"is_main_project" : "true",
-"project_name" : "Cube Fusion",
-"project_description" : "A two-player cooperative puzzle game that teaches children the basic approach to programming.",
-"image_uri" : "media/githubio.gif",
-"href_name" : "Server"}
+{
+	"project_id" : "CubeFusion",
+	"project_name" : "Cube Fusion",
+	"project_description" : "A two-player cooperative puzzle game that teaches children the basic approach to programming.",
+	"image_uri" : "media/githubio.gif",
+	"tags" : "Unity3D,C#,Networking"
+	"href_name" : "Server"
+}
