@@ -1,4 +1,4 @@
 "is_main_project" : "true"
-"name" : "Cube Fusion"
-"description" : "A two-player cooperative puzzle game that teaches children the basic approach to programming."
+"project_name" : "Cube Fusion"
+"project_description" : "A two-player cooperative puzzle game that teaches children the basic approach to programming."
 "image_uri" : "media/githubio.gif"
