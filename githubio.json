@@ -3,6 +3,6 @@
 	"project_name" : "Cube Fusion",
 	"project_description" : "A two-player cooperative puzzle game that teaches children the basic approach to programming. Consists of one project for the server and one project for the client devices.",
 	"image_uri": "media/githubio.gif",
-	"tags" : "Unity3D,C#,Networking",
+	"tags" : "Unity3D, C#, Networking",
 	"href_name" : "Server"
 }
